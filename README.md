@@ -6,7 +6,7 @@
 - `CNAME` — Domain config for GitHub Pages
 
 ## Admin Access
-URL: `samioutic.com/admin.html`
+URL: `samioutic.com/**********.****`
 Default login: `**""*"` / `*******`
 ⚠️ Change password immediately after first login!
 
