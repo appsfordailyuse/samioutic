@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sami Bajwa — AI Educator | Samioutic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#c8a84b;--gl:#e8c96a;--gd:#8a6d2a;
+  --black:#060608;--d1:#0c0c10;--d2:#111116;--d3:#18181e;--d4:#202028;
+  --green:#34d471;--grd:#1a7a40;
+  --white:#f2ede4;--dim:#9a9288;--mut:#545058;--r:6px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--grd));border-radius:4px;}
+
+/* CANVAS */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 3rem;
+  background:linear-gradient(180deg,rgba(6,6,8,.97) 0%,transparent 100%);
+  transition:background .4s;}
+nav.sol{background:rgba(6,6,8,.98);border-bottom:1px solid rgba(200,168,75,.1);}
+.logo{font-family:"Playfair Display",serif;font-size:1.2rem;font-weight:700;
+  color:var(--gold);text-decoration:none;letter-spacing:2px;
+  display:flex;align-items:center;gap:7px;cursor:pointer;}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--green);
+  animation:blink 2s ease-in-out infinite;flex-shrink:0;}
+.nl{display:flex;gap:1.8rem;list-style:none;align-items:center;}
+.nl a{color:var(--dim);font-size:.7rem;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;text-decoration:none;cursor:pointer;
+  transition:color .3s;position:relative;}
+.nl a::after{content:"";position:absolute;bottom:-3px;left:0;width:0;height:1px;
+  background:var(--gold);transition:width .3s;}
+.nl a:hover,.nl a.on{color:var(--gold);}
+.nl a:hover::after,.nl a.on::after{width:100%;}
+.hbg{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;}
+.hbg span{display:block;width:23px;height:1.5px;background:var(--gold);}
+.mob{display:none;position:fixed;inset:0;background:rgba(6,6,8,.99);z-index:490;
+  flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;}
+.mob.open{display:flex;}
+.mob a{font-family:"Playfair Display",serif;font-size:1.3rem;color:var(--dim);
+  cursor:pointer;letter-spacing:3px;transition:color .3s;}
+.mob a:hover{color:var(--gold);}
+.mob-x{position:absolute;top:1.5rem;right:2rem;background:none;border:none;
+  color:var(--gold);font-size:2rem;cursor:pointer;}
+
+/* PAGES */
+.page{display:none;min-height:100vh;position:relative;z-index:1;}
+.page.on{display:block;}
+
+/* ── HOME ── */
+#p-home{}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:7rem 1.5rem 5rem;position:relative;}
+.hgrid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(200,168,75,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,168,75,.025) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 85% 75% at 50% 50%,black 5%,transparent 75%);}
+.ebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.6rem;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(200,168,75,.25);padding:.38rem 1.1rem;border-radius:40px;
+  background:rgba(200,168,75,.05);margin-bottom:2rem;animation:fadeUp .8s ease both;}
+.edot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;}
+h1.hn{font-family:"Playfair Display",serif;font-size:clamp(3rem,10vw,8rem);
+  font-weight:900;line-height:.88;letter-spacing:-2px;animation:fadeUp .8s .1s ease both;}
+h1.hn .w{color:var(--white);display:block;}
+h1.hn .g{display:block;
+  background:linear-gradient(135deg,#e8c96a 0%,#c8a84b 50%,#8a6d2a 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.htag{font-family:"Playfair Display",serif;font-style:italic;
+  font-size:clamp(1rem,2.5vw,1.6rem);color:var(--dim);margin:1.4rem 0 .6rem;
+  animation:fadeUp .8s .2s ease both;}
+.hloc{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--grd);
+  font-weight:600;animation:fadeUp .8s .28s ease both;}
+.hdesc{max-width:500px;font-size:.9rem;line-height:2.1;color:var(--mut);
+  margin:1.6rem auto 0;animation:fadeUp .8s .36s ease both;}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+  margin-top:2.5rem;animation:fadeUp .8s .44s ease both;}
+.scrollh{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:fadeIn 1s 1.2s both;}
+.scrollh span{font-size:.54rem;letter-spacing:3px;text-transform:uppercase;color:var(--mut);}
+.sbar{width:1px;height:35px;background:linear-gradient(var(--gold),transparent);
+  animation:scrl 2s ease-in-out infinite;}
+
+/* ABOUT SECTION */
+.sec{padding:5.5rem 1.5rem;}
+.ctr{max-width:1140px;margin:0 auto;}
+.seye{font-size:.58rem;font-weight:700;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gd);margin-bottom:.6rem;}
+.stitle{font-family:"Playfair Display",serif;font-size:clamp(1.7rem,4vw,3rem);
+  font-weight:700;color:var(--white);line-height:1.08;}
+.stitle em{font-style:italic;background:linear-gradient(135deg,var(--gl),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.divl{width:48px;height:2px;background:linear-gradient(90deg,var(--gold),rgba(52,212,113,.6),transparent);
+  margin:1.2rem 0 2.5rem;border-radius:2px;}
+.about-g{display:grid;grid-template-columns:320px 1fr;gap:4.5rem;align-items:start;}
+.ab-card{background:linear-gradient(135deg,var(--d3),rgba(20,32,24,.8));
+  border:1px solid rgba(200,168,75,.18);border-radius:10px;padding:0;overflow:hidden;
+  position:sticky;top:7rem;}
+.ab-photo{width:100%;aspect-ratio:4/5;overflow:hidden;position:relative;}
+.ab-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+.ab-photo::after{content:"";position:absolute;bottom:0;left:0;right:0;height:45%;
+  background:linear-gradient(transparent,rgba(6,6,8,.85));}
+.ab-ntag{position:absolute;bottom:1rem;left:1rem;right:1rem;z-index:2;}
+.ab-ntag h3{font-family:"Playfair Display",serif;font-size:1.15rem;color:var(--white);margin-bottom:.2rem;}
+.ab-ntag span{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.ab-info{padding:1.2rem;}
+.ab-row{display:flex;align-items:center;gap:.7rem;
+  background:rgba(200,168,75,.04);border:1px solid rgba(200,168,75,.08);
+  padding:.55rem .85rem;border-radius:var(--r);margin-bottom:.5rem;}
+.ab-row:last-child{margin-bottom:0;}
+.ab-ic{font-size:.9rem;width:20px;text-align:center;}
+.ab-tx{font-size:.76rem;color:var(--dim);}
+.ab-tx strong{color:var(--gl);}
+.atext .lead{font-family:"Playfair Display",serif;font-style:italic;
+  font-size:clamp(1.1rem,2.2vw,1.4rem);color:var(--dim);line-height:1.7;
+  margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid rgba(200,168,75,.1);}
+.atext .lead strong{color:var(--gl);font-style:normal;}
+.atext p{font-size:.91rem;line-height:2.1;color:var(--mut);margin-bottom:1.1rem;}
+.atext p strong{color:var(--gl);}
+.qt{border-left:2px solid var(--gold);padding:1rem 1.4rem;margin:1.6rem 0;
+  background:linear-gradient(90deg,rgba(200,168,75,.06),transparent);
+  border-radius:0 var(--r) var(--r) 0;font-family:"Playfair Display",serif;
+  font-style:italic;font-size:.98rem;color:var(--dim);line-height:1.8;}
+.skills{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0;}
+.stg{font-size:.62rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gd);border:1px solid rgba(200,168,75,.2);padding:.28rem .8rem;
+  border-radius:30px;background:rgba(200,168,75,.04);transition:all .3s;cursor:default;}
+.stg:hover{color:var(--gold);border-color:rgba(200,168,75,.5);}
+
+/* WHY BOOKS */
+.why-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;}
+.wc{background:var(--d2);border:1px solid rgba(200,168,75,.1);border-radius:8px;
+  padding:1.6rem;transition:all .3s;}
+.wc:hover{border-color:rgba(200,168,75,.35);transform:translateY(-4px);}
+.wi{font-size:2rem;margin-bottom:1rem;}
+.wt{font-family:"Playfair Display",serif;font-size:1rem;font-weight:700;
+  color:var(--white);margin-bottom:.6rem;}
+.wd{font-size:.82rem;line-height:1.85;color:var(--mut);}
+
+/* SOCIAL */
+.soc-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin-top:2.5rem;}
+.sc{background:var(--d3);border:1px solid rgba(200,168,75,.1);border-radius:8px;
+  padding:1.5rem 1rem;text-align:center;text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:.8rem;transition:all .3s;cursor:pointer;}
+.sc:hover{transform:translateY(-4px);}
+.sc-ic{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.sc-nm{font-family:"Playfair Display",serif;font-size:.78rem;font-weight:600;color:var(--white);}
+.sc-hd{font-size:.62rem;color:var(--mut);}
+.sc-fb .sc-ic{background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.28);}
+.sc-fb:hover{border-color:rgba(24,119,242,.4);}
+.sc-ig .sc-ic{background:rgba(225,48,108,.1);border:1px solid rgba(225,48,108,.28);}
+.sc-ig:hover{border-color:rgba(225,48,108,.4);}
+.sc-th .sc-ic{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);}
+.sc-th:hover{border-color:rgba(255,255,255,.28);}
+.sc-x .sc-ic{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);}
+.sc-x:hover{border-color:rgba(255,255,255,.28);}
+.sc-wa .sc-ic{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);}
+.sc-wa:hover{border-color:rgba(37,211,102,.5);}
+
+/* ── BOOKS PAGE ── */
+#p-books .page-hero{padding:8rem 1.5rem 3rem;text-align:center;
+  background:linear-gradient(180deg,rgba(200,168,75,.04) 0%,transparent 100%);}
+.fbar{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.fb{padding:.42rem 1.1rem;background:transparent;color:var(--mut);font-size:.63rem;
+  font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid rgba(200,168,75,.15);border-radius:3px;cursor:pointer;transition:.25s;}
+.fb:hover,.fb.on{color:var(--gold);border-color:rgba(200,168,75,.5);background:rgba(200,168,75,.06);}
+.bkg{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1.3rem;}
+.bk{background:var(--d2);border:1px solid rgba(200,168,75,.1);border-radius:8px;
+  padding:1.6rem;text-decoration:none;display:flex;flex-direction:column;gap:.75rem;
+  transition:all .32s;position:relative;overflow:hidden;cursor:pointer;}
+.bk::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform:scaleX(0);transition:transform .4s;transform-origin:left;}
+.bk:hover{border-color:rgba(200,168,75,.42);transform:translateY(-5px);
+  box-shadow:0 18px 44px rgba(0,0,0,.55);}
+.bk:hover::before{transform:scaleX(1);}
+.bk-th{width:100%;height:130px;border-radius:var(--r);object-fit:cover;
+  background:var(--d3);display:block;border:1px solid rgba(200,168,75,.08);}
+.bk-tp{width:100%;height:130px;border-radius:var(--r);
+  background:linear-gradient(135deg,var(--d3),var(--d4));
+  display:flex;align-items:center;justify-content:center;font-size:2.5rem;
+  border:1px solid rgba(200,168,75,.08);}
+.bk-num{font-family:"Playfair Display",serif;font-size:.6rem;color:var(--gd);letter-spacing:2px;}
+.bk-tt{font-family:"Playfair Display",serif;font-size:.9rem;font-weight:700;color:var(--white);line-height:1.42;}
+.bk-de{font-size:.75rem;line-height:1.78;color:var(--mut);flex:1;}
+.bk-ft{display:flex;align-items:center;justify-content:space-between;
+  padding-top:.9rem;border-top:1px solid rgba(200,168,75,.08);margin-top:.3rem;}
+.bk-tg{font-size:.57rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gd);border:1px solid rgba(200,168,75,.2);padding:.2rem .6rem;border-radius:2px;}
+.bk-ar{font-size:.9rem;color:var(--gold);opacity:0;transform:translateX(-6px);transition:.3s;}
+.bk:hover .bk-ar{opacity:1;transform:translateX(0);}
+
+/* ── HIRE PAGE ── */
+#p-hire .page-hero{padding:8rem 1.5rem 3rem;text-align:center;
+  background:linear-gradient(180deg,rgba(52,212,113,.04) 0%,transparent 100%);}
+.srv-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.2rem;}
+.srv{background:var(--d2);border:1px solid rgba(52,212,113,.1);border-radius:8px;
+  padding:1.6rem;display:flex;flex-direction:column;gap:.85rem;transition:all .32s;
+  position:relative;overflow:hidden;cursor:pointer;}
+.srv::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  transform:scaleX(0);transition:transform .4s;transform-origin:left;}
+.srv:hover{border-color:rgba(52,212,113,.38);transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,0,0,.5);}
+.srv:hover::after{transform:scaleX(1);}
+.srv-ic{font-size:1.9rem;line-height:1;}
+.srv-nm{font-family:"Playfair Display",serif;font-size:.95rem;font-weight:700;color:var(--white);line-height:1.35;}
+.srv-tx{font-size:.76rem;line-height:1.78;color:var(--mut);flex:1;}
+.srv-wa{display:inline-flex;align-items:center;gap:.55rem;margin-top:.4rem;width:fit-content;
+  padding:.5rem 1rem;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.22);
+  border-radius:4px;color:#6effa8;font-size:.65rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;transition:all .3s;}
+.srv:hover .srv-wa{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.46);}
+
+.atabs{display:flex;gap:.5rem;background:var(--d2);border:1px solid rgba(200,168,75,.1);
+  border-radius:var(--r);padding:.3rem;width:fit-content;margin:0 auto 2rem;}
+.atab{padding:.5rem 1.4rem;font-size:.7rem;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;border:none;background:none;color:var(--mut);cursor:pointer;
+  border-radius:4px;transition:.2s;}
+.atab.on{background:var(--gold);color:#080808;}
+.apanel{display:none;}.apanel.on{display:block;}
+.aform{background:var(--d2);border:1px solid rgba(200,168,75,.15);
+  border-radius:8px;padding:1.5rem;margin-bottom:2rem;}
+.ftitle{font-family:"Playfair Display",serif;font-size:1rem;color:var(--white);margin-bottom:1.2rem;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.ffull{grid-column:1/-1;}
+label{display:block;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gd);margin-bottom:.3rem;font-weight:700;}
+input,textarea,select{width:100%;background:var(--d3);border:1px solid rgba(200,168,75,.15);
+  color:var(--white);padding:.65rem .9rem;border-radius:var(--r);
+  font-family:"DM Sans",sans-serif;font-size:.82rem;outline:none;transition:border .2s;}
+input:focus,textarea:focus,select:focus{border-color:rgba(200,168,75,.45);}
+textarea{resize:vertical;min-height:80px;}
+.bsave{padding:.7rem 2rem;background:linear-gradient(135deg,var(--gl),var(--gold));
+  color:#080808;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  border:none;cursor:pointer;border-radius:var(--r);transition:all .3s;margin-right:.6rem;}
+.bsave:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(200,168,75,.35);}
+.bdanger{padding:.5rem 1rem;background:transparent;color:#ff6b6b;
+  font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  border:1px solid rgba(255,107,107,.3);cursor:pointer;border-radius:var(--r);transition:all .3s;}
+.bdanger:hover{background:rgba(255,107,107,.1);}
+.bedit{padding:.5rem 1rem;background:transparent;color:var(--gold);
+  font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  border:1px solid rgba(200,168,75,.3);cursor:pointer;border-radius:var(--r);transition:all .3s;}
+.bedit:hover{background:rgba(200,168,75,.08);}
+.ilist{display:flex;flex-direction:column;gap:.7rem;}
+.irow{background:var(--d2);border:1px solid rgba(200,168,75,.1);border-radius:var(--r);
+  padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.iico{font-size:1.4rem;flex-shrink:0;}
+.iinf{flex:1;min-width:150px;}
+.inm{font-family:"Playfair Display",serif;font-size:.88rem;color:var(--white);margin-bottom:.2rem;}
+.imeta{font-size:.68rem;color:var(--mut);}
+.iact{display:flex;gap:.5rem;flex-shrink:0;}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--d3);
+  border:1px solid rgba(200,168,75,.3);border-radius:var(--r);
+  padding:.8rem 1.5rem;font-size:.8rem;color:var(--gold);
+  z-index:9999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* SHARED BTNS */
+.btn-gold{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2.2rem;
+  background:linear-gradient(135deg,var(--gl),var(--gold),var(--gd));color:#080808;
+  font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  text-decoration:none;border:none;cursor:pointer;border-radius:var(--r);
+  box-shadow:0 4px 24px rgba(200,168,75,.25);transition:all .3s;}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(200,168,75,.4);}
+.btn-green{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2.2rem;
+  background:rgba(52,212,113,.08);color:#7affb8;font-size:.72rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(52,212,113,.3);
+  cursor:pointer;border-radius:var(--r);transition:all .3s;}
+.btn-green:hover{background:rgba(52,212,113,.15);border-color:rgba(52,212,113,.6);transform:translateY(-3px);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.rv-l{opacity:0;transform:translateX(-28px);transition:opacity .65s ease,transform .65s ease;}
+.rv-r{opacity:0;transform:translateX(28px);transition:opacity .65s ease,transform .65s ease;}
+.rv.vis,.rv-l.vis,.rv-r.vis{opacity:1;transform:none;}
+.d1{transition-delay:.08s!important;}.d2{transition-delay:.16s!important;}
+.d3{transition-delay:.24s!important;}.d4{transition-delay:.32s!important;}
+
+/* FOOTER */
+footer{background:var(--d1);border-top:1px solid rgba(200,168,75,.1);
+  padding:2rem 1.5rem;position:relative;z-index:1;}
+.fin{max-width:1140px;margin:0 auto;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.flogo{font-family:"Playfair Display",serif;font-size:1rem;font-weight:700;
+  color:var(--gold);letter-spacing:2px;}
+.flks{display:flex;gap:1.5rem;}
+.flks a{font-size:.68rem;color:var(--mut);text-decoration:none;letter-spacing:1.5px;
+  text-transform:uppercase;transition:color .3s;cursor:pointer;}
+.flks a:hover{color:var(--gold);}
+.fcp{font-size:.67rem;color:var(--mut);}
+.fcp strong{color:var(--gl);}
+
+/* CHATBOT */
+#cb-btn{position:fixed;bottom:1.8rem;right:1.8rem;z-index:1000;
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gd));
+  border:none;cursor:pointer;box-shadow:0 4px 20px rgba(200,168,75,.4);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;font-size:1.4rem;}
+#cb-btn:hover{transform:scale(1.1);}
+#cb-btn .cbn{position:absolute;top:-2px;right:-2px;width:12px;height:12px;
+  border-radius:50%;background:var(--green);border:2px solid var(--black);animation:blink 2s infinite;}
+#cb-box{position:fixed;bottom:5.5rem;right:1.8rem;z-index:1000;
+  width:360px;max-width:calc(100vw - 2rem);height:500px;
+  max-height:calc(100vh - 8rem);
+  background:var(--d1);border:1px solid rgba(200,168,75,.2);border-radius:12px;
+  display:none;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);overflow:hidden;}
+#cb-box.open{display:flex;}
+.cbh{background:linear-gradient(135deg,rgba(200,168,75,.12),rgba(52,212,113,.06));
+  border-bottom:1px solid rgba(200,168,75,.15);padding:.9rem 1.1rem;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.cbh-i{display:flex;align-items:center;gap:.7rem;}
+.cbh-av{width:34px;height:34px;border-radius:50%;overflow:hidden;
+  border:1px solid rgba(200,168,75,.3);flex-shrink:0;}
+.cbh-av img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.cbh-n{font-size:.82rem;font-weight:700;color:var(--white);}
+.cbh-s{font-size:.62rem;color:var(--green);letter-spacing:1px;}
+.cbh-x{background:none;border:none;color:var(--dim);cursor:pointer;font-size:1.1rem;}
+.cbh-x:hover{color:var(--gold);}
+.cbm{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem;}
+.cbm::-webkit-scrollbar{width:2px;}
+.cbm::-webkit-scrollbar-thumb{background:rgba(200,168,75,.3);}
+.cm{max-width:87%;font-size:.8rem;line-height:1.65;padding:.65rem .9rem;border-radius:10px;}
+.cm.bot{background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.12);
+  color:#c8c0b4;align-self:flex-start;border-radius:2px 10px 10px 10px;}
+.cm.usr{background:linear-gradient(135deg,rgba(200,168,75,.18),rgba(200,168,75,.1));
+  color:var(--gl);align-self:flex-end;border-radius:10px 2px 10px 10px;
+  border:1px solid rgba(200,168,75,.2);}
+.cm a{color:var(--gold);text-decoration:underline;}
+.cbtyp{display:flex;gap:4px;padding:.5rem .9rem;align-items:center;}
+.cbtyp span{width:6px;height:6px;border-radius:50%;background:rgba(200,168,75,.5);
+  animation:tdot 1.2s infinite;}
+.cbtyp span:nth-child(2){animation-delay:.2s;}
+.cbtyp span:nth-child(3){animation-delay:.4s;}
+.cbq{padding:.5rem .75rem;display:flex;gap:.4rem;flex-wrap:wrap;
+  border-top:1px solid rgba(200,168,75,.08);flex-shrink:0;}
+.cqb{padding:.28rem .65rem;background:rgba(200,168,75,.06);
+  border:1px solid rgba(200,168,75,.18);border-radius:20px;
+  font-size:.62rem;color:var(--gold);cursor:pointer;transition:.2s;white-space:nowrap;}
+.cqb:hover{background:rgba(200,168,75,.12);}
+.cbir{border-top:1px solid rgba(200,168,75,.12);padding:.75rem;
+  display:flex;gap:.5rem;align-items:center;flex-shrink:0;}
+.cbi{flex:1;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.15);
+  color:var(--white);padding:.55rem .85rem;border-radius:var(--r);
+  font-size:.8rem;outline:none;font-family:"DM Sans",sans-serif;transition:.2s;}
+.cbi:focus{border-color:rgba(200,168,75,.4);}
+.cbs{background:linear-gradient(135deg,var(--gold),var(--gd));border:none;
+  width:36px;height:36px;border-radius:var(--r);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.cbs:hover{transform:scale(1.08);}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes blink{0%,100%{opacity:.4;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+@keyframes scrl{0%{opacity:0;transform:translateY(-8px);}50%{opacity:1;}100%{opacity:0;transform:translateY(14px);}}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+
+/* RESPONSIVE */
+@media(max-width:900px){.about-g{grid-template-columns:1fr;}
+  .ab-card{position:static;max-width:320px;margin:0 auto;}}
+@media(max-width:768px){nav{padding:1rem 1.2rem;}.nl{display:none;}.hbg{display:flex;}
+  .fin{flex-direction:column;text-align:center;}.flks{justify-content:center;}}
+@media(max-width:500px){.soc-g{grid-template-columns:repeat(2,1fr);}
+  .bkg,.srv-g{grid-template-columns:1fr;}
+  .fgrid{grid-template-columns:1fr;}
+  #cb-box{width:calc(100vw - 1rem);right:.5rem;}}
+
+/* ══ LANGUAGE SWITCHER ══ */
+.lang-wrap{position:relative;display:flex;align-items:center;margin-left:.8rem;}
+.lang-btn{background:none;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:5px;padding:4px 8px;
+  border-radius:20px;border:1px solid rgba(200,168,75,.2);
+  transition:all .3s;color:var(--dim);}
+.lang-btn:hover{border-color:rgba(200,168,75,.5);color:var(--gold);}
+.lang-globe{font-size:1rem;line-height:1;}
+.lang-code{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);}
+.lang-arrow{font-size:.55rem;color:var(--dim);transition:transform .2s;}
+.lang-btn.open .lang-arrow{transform:rotate(180deg);}
+.lang-drop{position:absolute;top:calc(100% + 8px);right:0;
+  background:var(--d2);border:1px solid rgba(200,168,75,.2);
+  border-radius:8px;min-width:200px;max-height:380px;overflow-y:auto;
+  box-shadow:0 16px 40px rgba(0,0,0,.6);z-index:600;
+  display:none;flex-direction:column;padding:.4rem 0;}
+.lang-drop.open{display:flex;}
+.lang-drop::-webkit-scrollbar{width:3px;}
+.lang-drop::-webkit-scrollbar-thumb{background:rgba(200,168,75,.3);}
+.lang-group{padding:.35rem .8rem .15rem;font-size:.55rem;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--gd);font-weight:700;}
+.lang-item{display:flex;align-items:center;gap:.7rem;padding:.5rem 1rem;
+  cursor:pointer;transition:background .2s;border:none;background:none;
+  width:100%;text-align:left;}
+.lang-item:hover{background:rgba(200,168,75,.07);}
+.lang-item.active{background:rgba(200,168,75,.1);}
+.lang-flag{font-size:.95rem;line-height:1;width:20px;text-align:center;}
+.lang-name{font-size:.75rem;color:var(--white);font-weight:500;}
+.lang-native{font-size:.68rem;color:var(--dim);}
+</style>
+</head>
+<body>
+
+<canvas id="bgc"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo" onclick="goPage('home')">SAMIOUTIC <span class="ldot"></span>
+    <!-- Language button sits right after the dot -->
+    <div class="lang-wrap" onclick="event.stopPropagation()">
+      <button class="lang-btn" id="langBtn" onclick="toggleLangDrop()">
+        <span class="lang-globe">🌐</span>
+        <span class="lang-code" id="langCode">EN</span>
+        <span class="lang-arrow">▾</span>
+      </button>
+      <div class="lang-drop" id="langDrop">
+        <div class="lang-group">Popular</div>
+        <button class="lang-item active" data-lang="en" data-code="EN" onclick="setLang('en','EN',this)"><span class="lang-flag">🇬🇧</span><span class="lang-name">English</span></button>
+        <button class="lang-item" data-lang="ru" data-code="RU" onclick="setLang('ru','RU',this)"><span class="lang-flag">🇵🇰</span><span class="lang-name">Roman Urdu</span><span class="lang-native">Urdu (Roman)</span></button>
+        <button class="lang-item" data-lang="ur" data-code="UR" onclick="setLang('ur','UR',this)"><span class="lang-flag">🇵🇰</span><span class="lang-name">اردو</span><span class="lang-native">Urdu Script</span></button>
+        <div class="lang-group">South Asia</div>
+        <button class="lang-item" data-lang="hi" data-code="HI" onclick="setLang('hi','HI',this)"><span class="lang-flag">🇮🇳</span><span class="lang-name">Hindi</span><span class="lang-native">हिन्दी</span></button>
+        <button class="lang-item" data-lang="bn" data-code="BN" onclick="setLang('bn','BN',this)"><span class="lang-flag">🇧🇩</span><span class="lang-name">Bengali</span><span class="lang-native">বাংলা</span></button>
+        <button class="lang-item" data-lang="pa" data-code="PA" onclick="setLang('pa','PA',this)"><span class="lang-flag">🇵🇰</span><span class="lang-name">Punjabi</span><span class="lang-native">پنجابی</span></button>
+        <div class="lang-group">Middle East</div>
+        <button class="lang-item" data-lang="ar" data-code="AR" onclick="setLang('ar','AR',this)"><span class="lang-flag">🇸🇦</span><span class="lang-name">Arabic</span><span class="lang-native">العربية</span></button>
+        <button class="lang-item" data-lang="fa" data-code="FA" onclick="setLang('fa','FA',this)"><span class="lang-flag">🇮🇷</span><span class="lang-name">Persian</span><span class="lang-native">فارسی</span></button>
+        <button class="lang-item" data-lang="tr" data-code="TR" onclick="setLang('tr','TR',this)"><span class="lang-flag">🇹🇷</span><span class="lang-name">Turkish</span><span class="lang-native">Türkçe</span></button>
+        <div class="lang-group">Europe</div>
+        <button class="lang-item" data-lang="fr" data-code="FR" onclick="setLang('fr','FR',this)"><span class="lang-flag">🇫🇷</span><span class="lang-name">French</span><span class="lang-native">Français</span></button>
+        <button class="lang-item" data-lang="de" data-code="DE" onclick="setLang('de','DE',this)"><span class="lang-flag">🇩🇪</span><span class="lang-name">German</span><span class="lang-native">Deutsch</span></button>
+        <button class="lang-item" data-lang="es" data-code="ES" onclick="setLang('es','ES',this)"><span class="lang-flag">🇪🇸</span><span class="lang-name">Spanish</span><span class="lang-native">Español</span></button>
+        <button class="lang-item" data-lang="it" data-code="IT" onclick="setLang('it','IT',this)"><span class="lang-flag">🇮🇹</span><span class="lang-name">Italian</span><span class="lang-native">Italiano</span></button>
+        <button class="lang-item" data-lang="ru_lang" data-code="RU" onclick="setLang('ru_lang','RU',this)"><span class="lang-flag">🇷🇺</span><span class="lang-name">Russian</span><span class="lang-native">Русский</span></button>
+        <div class="lang-group">East Asia</div>
+        <button class="lang-item" data-lang="zh" data-code="ZH" onclick="setLang('zh','ZH',this)"><span class="lang-flag">🇨🇳</span><span class="lang-name">Chinese</span><span class="lang-native">中文</span></button>
+        <button class="lang-item" data-lang="ja" data-code="JA" onclick="setLang('ja','JA',this)"><span class="lang-flag">🇯🇵</span><span class="lang-name">Japanese</span><span class="lang-native">日本語</span></button>
+        <button class="lang-item" data-lang="ko" data-code="KO" onclick="setLang('ko','KO',this)"><span class="lang-flag">🇰🇷</span><span class="lang-name">Korean</span><span class="lang-native">한국어</span></button>
+        <div class="lang-group">Africa & Others</div>
+        <button class="lang-item" data-lang="sw" data-code="SW" onclick="setLang('sw','SW',this)"><span class="lang-flag">🇰🇪</span><span class="lang-name">Swahili</span><span class="lang-native">Kiswahili</span></button>
+        <button class="lang-item" data-lang="pt" data-code="PT" onclick="setLang('pt','PT',this)"><span class="lang-flag">🇧🇷</span><span class="lang-name">Portuguese</span><span class="lang-native">Português</span></button>
+        <button class="lang-item" data-lang="id" data-code="ID" onclick="setLang('id','ID',this)"><span class="lang-flag">🇮🇩</span><span class="lang-name">Indonesian</span><span class="lang-native">Bahasa Indonesia</span></button>
+      </div>
+    </div>
+  </div>
+  <ul class="nl">
+    <li><a onclick="goPage('home')" id="nl-home" class="on">Home</a></li>
+    <li><a onclick="goPage('books')" id="nl-books">Books</a></li>
+    <li><a onclick="goPage('hire')" id="nl-hire">Hire Me</a></li>
+  </ul>
+  <button class="hbg" onclick="toggleMob()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-x" onclick="toggleMob()">✕</button>
+  <a onclick="goPage('home');toggleMob()">Home</a>
+  <a onclick="goPage('books');toggleMob()">Books</a>
+  <a onclick="goPage('hire');toggleMob()">Hire Me</a>
+</div>
+
+<!-- ═══════════ HOME ═══════════ -->
+<div class="page on" id="p-home">
+  <div class="hero">
+    <div class="hgrid"></div>
+    <div class="ebrow"><div class="edot"></div>AI Educator &nbsp;·&nbsp; Digital Entrepreneur &nbsp;·&nbsp; Sargodha, Pakistan</div>
+    <h1 class="hn"><span class="w">SAMI</span><span class="g">BAJWA</span></h1>
+    <p class="htag">Free Knowledge. Real Results.</p>
+    <p class="hloc">📍 Sargodha, Pakistan</p>
+    <p class="hdesc">Empowering Pakistani students with free AI education, automation guides, and digital skills — no paywalls, no gatekeeping.</p>
+    <div class="hbtns">
+      <button class="btn-gold" onclick="goPage('books')">📚 Free Books</button>
+      <button class="btn-green" onclick="goPage('hire')">💼 Hire Me</button>
+    </div>
+    <div class="scrollh"><div class="sbar"></div><span>Scroll</span></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="sec" style="background:linear-gradient(155deg,var(--d1) 0%,rgba(10,20,14,.85) 50%,var(--d1) 100%);">
+    <div class="ctr">
+      <div class="about-g">
+        <div class="rv-l">
+          <div class="ab-card">
+            <div class="ab-photo">
+              <img id="ab-img" src="data:image/jpeg;base64,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" alt="Sami Bajwa"/>
+              <div class="ab-ntag"><h3>Sami Bajwa</h3><span>AI Educator & Entrepreneur</span></div>
+            </div>
+            <div class="ab-info">
+              <div class="ab-row"><span class="ab-ic">📍</span><span class="ab-tx"><strong>Sargodha,</strong> Pakistan</span></div>
+              <div class="ab-row"><span class="ab-ic">🎓</span><span class="ab-tx">AI Educator & Content Creator</span></div>
+              <div class="ab-row"><span class="ab-ic">🆓</span><span class="ab-tx"><strong>100% Free</strong> Education</span></div>
+              <div class="ab-row"><span class="ab-ic">📱</span><span class="ab-tx"><strong>@samibajwaisking</strong> everywhere</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="atext rv-r">
+          <p class="seye">Who I Am</p>
+          <h2 class="stitle">About <em>Sami Bajwa</em></h2>
+          <div class="divl"></div>
+          <p class="lead">I'm <strong>Sami Bajwa</strong> — an AI educator, digital entrepreneur, and content creator on a mission to bring <strong>free knowledge</strong> to every student in Pakistan.</p>
+          <p>My journey began with one simple belief: technology education is not a privilege — it's a right. Through Facebook communities, WhatsApp groups, and online platforms, I guide thousands of students daily on AI tools, automation, freelancing, and digital earning.</p>
+          <div class="qt">"Knowledge doesn't diminish when shared — it multiplies. Give it freely, give it purely."<br><span style="font-size:.78rem;color:var(--gd);font-style:normal;letter-spacing:2px;">— Sami Bajwa</span></div>
+          <p>I work deeply with <strong>Claude AI, ChatGPT, n8n Automation</strong>, and modern web technologies. I've authored <span id='dyn-count-about'></span> free books and courses. Professionally, I help businesses with <strong>automation, web development, WhatsApp bots, and AI solutions</strong>.</p>
+          <div class="skills">
+            <span class="stg">Claude AI</span><span class="stg">ChatGPT</span>
+            <span class="stg">n8n Automation</span><span class="stg">Web Development</span>
+            <span class="stg">WhatsApp Bots</span><span class="stg">Freelancing</span>
+            <span class="stg">Crypto Education</span><span class="stg">Content Creation</span>
+            <span class="stg">AI Agents</span><span class="stg">Voice Agents</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY BOOKS -->
+  <div class="sec">
+    <div class="ctr">
+      <div class="rv" style="text-align:center;max-width:640px;margin:0 auto 3rem;">
+        <p class="seye">The Mission Behind Every Page</p>
+        <h2 class="stitle">Why <em>These Books?</em></h2>
+        <div class="divl" style="margin:1.2rem auto 1.5rem;"></div>
+        <p style="font-size:.9rem;line-height:2;color:var(--mut);">Every book Sami Bajwa has written carries one purpose — to give young Pakistanis the tools they need to compete globally, earn independently, and thrive in the age of AI.</p>
+      </div>
+      <div class="why-g">
+        <div class="wc rv d1"><div class="wi">🎯</div><div class="wt">Zero to Earning — Fast</div><div class="wd">Young Pakistanis are using these books to start freelancing, build AI-powered services, and earn in dollars — often within weeks. No degree needed.</div></div>
+        <div class="wc rv d2"><div class="wi">🌍</div><div class="wt">Bridging the Knowledge Gap</div><div class="wd">Quality AI education is expensive worldwide. Sami Bajwa wrote in Roman Urdu so every student — regardless of background — gets world-class knowledge free.</div></div>
+        <div class="wc rv d3"><div class="wi">🔥</div><div class="wt">Real Skills for the Real World</div><div class="wd">Not theory — tools students use today: Claude AI, ChatGPT, n8n, crypto, Daraz selling, and more. Practical, actionable, always current.</div></div>
+        <div class="wc rv d4"><div class="wi">💚</div><div class="wt">Community-Driven Impact</div><div class="wd">Thousands of students across Pakistan from Sargodha to Karachi are part of the Samioutic community. These books sparked real career change.</div></div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;" class="rv">
+        <button class="btn-gold" onclick="goPage('books')">📚 Browse All 20 Books →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="sec" style="background:linear-gradient(155deg,var(--d1),rgba(10,20,14,.8),var(--d1));">
+    <div class="ctr">
+      <div class="rv" style="text-align:center;max-width:500px;margin:0 auto;">
+        <p class="seye">Find Sami Bajwa Online</p>
+        <h2 class="stitle">Social <em>Media</em></h2>
+        <div class="divl" style="margin:1.2rem auto 0;"></div>
+      </div>
+      <div class="soc-g">
+        <a class="sc sc-fb rv d1" href="https://www.facebook.com/samibajwaisking" target="_blank">
+          <div class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+          <div class="sc-nm">Facebook</div><div class="sc-hd">@samibajwaisking</div>
+        </a>
+        <a class="sc sc-ig rv d2" href="https://www.instagram.com/samibajwaisking" target="_blank">
+          <div class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fd5949"/><stop offset="50%" stop-color="#d6249f"/><stop offset="100%" stop-color="#285AEB"/></linearGradient></defs><path fill="url(#ig)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+          <div class="sc-nm">Instagram</div><div class="sc-hd">@samibajwaisking</div>
+        </a>
+        <a class="sc sc-th rv d3" href="https://www.threads.net/@samibajwaisking" target="_blank">
+          <div class="sc-ic"><svg width="20" height="20" viewBox="0 0 192 192" fill="#fff"><path d="M141.537 88.988c-1.793-.894-3.615-1.698-5.463-2.414-1.482-27.307-16.403-42.94-41.457-43.1h-.156c-15 0-27.463 6.396-35.135 17.925l13.779 9.452c5.73-8.694 14.724-10.548 21.347-10.548.076 0 .157 0 .232.001 8.25.053 14.474 2.451 18.504 7.129 2.932 3.405 4.893 8.11 5.864 14.05-7.314-1.243-15.224-1.625-23.68-1.14-23.82 1.372-39.134 15.265-38.105 34.569.52 9.792 5.398 18.216 13.733 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 135.966 29.808 116.682 29.605 96c.203-20.682 5.631-39.966 16.134-53.317C56.952 28.425 74.202 21.11 97.012 20.94c22.974.17 40.525 7.52 52.17 21.846 5.71 7.026 10.015 15.861 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.034 13.546 125.2 4.135 97.068 3.94h-.133c-28.075.195-49.665 9.547-64.169 27.957C19.881 48.346 13.224 71.317 13 99.933L13 100l.007.067c.224 28.616 6.881 51.587 19.779 68.063 14.504 18.411 36.093 27.763 64.169 27.957h.133c25.162-.173 42.756-6.708 57.25-21.189 18.963-18.945 18.392-42.692 12.142-57.27-4.484-10.454-13.033-18.945-24.943-24.64zm-57.082 40.52c-10.44.588-21.286-4.098-21.821-14.135-.39-7.442 5.303-15.746 22.469-16.735 1.966-.113 3.895-.168 5.79-.168 6.235 0 12.068.607 17.371 1.766-1.978 24.702-13.544 28.713-23.809 29.272z"/></svg></div>
+          <div class="sc-nm">Threads</div><div class="sc-hd">@samibajwaisking</div>
+        </a>
+        <a class="sc sc-x rv d4" href="https://x.com/samibajwa106" target="_blank">
+          <div class="sc-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+          <div class="sc-nm">X / Twitter</div><div class="sc-hd">@samibajwa106</div>
+        </a>
+        <a class="sc sc-wa rv" href="https://wa.me/923258948738" target="_blank">
+          <div class="sc-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+          <div class="sc-nm">WhatsApp</div><div class="sc-hd">+92 325 8948738</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div><!-- /home -->
+
+<!-- ═══════════ BOOKS ═══════════ -->
+<div class="page" id="p-books">
+  <div class="page-hero">
+    <p class="seye">Free Library by Sami Bajwa</p>
+    <h1 class="stitle">Books & <em>Courses</em></h1>
+    <div class="divl" style="margin:1.2rem auto 1rem;"></div>
+    <p style="font-size:.88rem;color:var(--mut);max-width:500px;margin:0 auto;">Click any book — opens directly in Google Drive. Always free.</p>
+  </div>
+  <div class="sec" style="padding-top:1.5rem;">
+    <div class="ctr">
+      <div class="fbar">
+        <button class="fb on" onclick="filtB('all',this)">All Books</button>
+        <button class="fb" onclick="filtB('ai',this)">AI Books</button>
+        <button class="fb" onclick="filtB('mine',this)">By Sami Bajwa</button>
+        <button class="fb" onclick="filtB('earning',this)">💵 Earning Books</button>
+      </div>
+      <div class="bkg" id="books-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HIRE ═══════════ -->
+<div class="page" id="p-hire">
+  <div class="page-hero">
+    <p class="seye">Work With Sami Bajwa</p>
+    <h1 class="stitle">Hire <em>Me</em></h1>
+    <div class="divl" style="margin:1.2rem auto 1rem;"></div>
+    <p style="font-size:.88rem;color:var(--mut);max-width:520px;margin:0 auto;line-height:1.9;">Professional digital solutions for your business. Click any service to connect on WhatsApp instantly.</p>
+  </div>
+  <div class="sec" style="padding-top:1.5rem;">
+    <div class="ctr">
+      <div class="srv-g" id="srv-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN ═══════════ -->
+
+<footer>
+  <div class="fin">
+    <div class="flogo">SAMIOUTIC.COM</div>
+    <div class="flks">
+      <a onclick="goPage('home')">Home</a>
+      <a onclick="goPage('books')">Books</a>
+      <a onclick="goPage('hire')">Hire Me</a>
+    </div>
+    <p class="fcp">© 2026 <strong>Sami Bajwa</strong> · Sargodha, Pakistan</p>
+    <a href="admin.html" style="font-size:.5rem;color:rgba(200,168,75,.15);text-decoration:none;margin-top:.3rem;display:block;" title="⚙">·</a>
+  </div>
+</footer>
+
+<!-- CHATBOT -->
+<button id="cb-btn" onclick="document.getElementById('cb-box').classList.toggle('open')">💬<span class="cbn"></span></button>
+<div id="cb-box">
+  <div class="cbh">
+    <div class="cbh-i">
+      <div class="cbh-av"><img id="cb-av" src="data:image/jpeg;base64,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" alt="SB"/></div>
+      <div><div class="cbh-n">Samioutic Assistant</div><div class="cbh-s">● Online</div></div>
+    </div>
+    <button class="cbh-x" onclick="document.getElementById('cb-box').classList.remove('open')">✕</button>
+  </div>
+  <div class="cbm" id="cbm"></div>
+  <div class="cbq">
+    <span class="cqb" onclick="askQ('All books')">📚 Books</span>
+    <span class="cqb" onclick="askQ('Services')">💼 Services</span>
+    <span class="cqb" onclick="askQ('Contact')">📞 Contact</span>
+    <span class="cqb" onclick="askQ('About Sami Bajwa')">👤 About</span>
+  </div>
+  <div class="cbir">
+    <input class="cbi" id="cbi" placeholder="Search books, ask anything..." onkeydown="if(event.key==='Enter')sendCB()"/>
+    <button class="cbs" onclick="sendCB()">➤</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════ DATA ══════ */
+const DEFAULT_BOOKS=[
+  {id:1,num:"01",icon:"🧠",title:"Artificial Intelligence — Complete Introduction",desc:"AI ki duniya mein aapka pehla qadam. Ye book AI ke bunyadi concepts, history aur real-world applications ko simple Roman Urdu mein explain karti hai.",cat:"ai",link:"https://drive.google.com/file/d/1sLGwMw0nSSuZkoiLrpxTdYpiWw7mWJ_n/view?usp=drivesdk",thumb:""},
+  {id:2,num:"02",icon:"🔬",title:"Deep Learning — Beginner to Advanced",desc:"Neural networks se lekar advanced deep learning architectures tak — step by step guide. Machine learning ka dil samjhein.",cat:"ai",link:"https://docs.google.com/document/d/1vNytNKwwShWr7djKYiNuMVWczkjEObOh/edit?usp=drivesdk",thumb:""},
+  {id:3,num:"03",icon:"🎯",title:"Reinforcement Learning — Complete Guide",desc:"AI agents kaise seekhte hain? Reinforcement learning ke concepts, algorithms aur real applications ek simple guide mein.",cat:"ai",link:"https://docs.google.com/document/d/13ZXGR-ZUqR4GMkSyj4o7498eZWhs-HRh/edit?usp=drivesdk",thumb:""},
+  {id:4,num:"04",icon:"⚙️",title:"AI Engineering — Practical Handbook",desc:"AI models ko real products mein kaise lagayein? Engineering principles, MLOps aur deployment ka practical guide.",cat:"ai",link:"https://drive.google.com/file/d/1lPWdauXb3z9JwxV6cSyY7Hor0lW8KOk4/view?usp=drivesdk",thumb:""},
+  {id:5,num:"05",icon:"🤝",title:"Co-Intelligence — Living & Working with AI",desc:"AI ke saath milkar kaam karna — ye book human-AI collaboration ka future explore karti hai. Apni job aur life mein AI ko partner banayein.",cat:"ai",link:"https://drive.google.com/file/d/17fRw53MSi4dkLH19-yFJ13KPHDdHTdeA/view?usp=drivesdk",thumb:""},
+  {id:6,num:"06",icon:"🌍",title:"Intelligence Origins — The Story of AI",desc:"AI ki kahani — kahan se aayi, kahan ja rahi hai. Intelligence ke origins se lekar modern AI tak ki fascinating journey.",cat:"ai",link:"https://drive.google.com/file/d/1adBtI3KSlZ3Pn1URxPqTF0FrJOdMCI9m/view?usp=drivesdk",thumb:""},
+  {id:7,num:"07",icon:"⚖️",title:"The Alignment Problem — AI Safety",desc:"AI ko human values ke saath align karna kyon zaroori hai? AI safety ka sab se important challenge is book mein explain kiya gaya hai.",cat:"ai",link:"https://drive.google.com/file/d/1aWvxQFnEi1fHMFDOZV9-OlWCEJ4-2ZCe/view?usp=drivesdk",thumb:""},
+  {id:8,num:"08",icon:"🚀",title:"Superintelligence — Paths, Dangers & Strategies",desc:"Jab AI insaan se zyada smart ho jaye — tab kya hoga? Nick Bostrom ki classic book ka simplified guide. AI ka khaufnaak aur exciting future.",cat:"ai",link:"https://drive.google.com/drive/folders/14gLn9SPlJSz66M64f_SCrQCpeLioD4Ad",thumb:""},
+  {id:9,num:"09",icon:"👑",title:"Empire of AI — The Future is Now",desc:"AI ki siasat, power aur duniya par asar. Ye book samjhati hai ke AI kaise governments, corporations aur society ko badal rahi hai.",cat:"ai",link:"https://drive.google.com/drive/folders/14gLn9SPlJSz66M64f_SCrQCpeLioD4Ad",thumb:""},
+  {id:10,num:"10",icon:"📖",title:"AI Basic Book — By Sami Bajwa",desc:"AI seekhne ka pehla qadam — bilkul zero se. Sami Bajwa ne ye book specially un students ke liye likhi hai jinhen AI ka koi bhi background nahi.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:11,num:"11",icon:"₿",title:"Bitcoin, Blockchain & Cryptocurrency — By Sami Bajwa",desc:"Bitcoin se DeFi tak, NFTs se Binance Pakistan MoU tak — Sami Bajwa ki comprehensive crypto guide Roman Urdu mein.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:12,num:"12",icon:"💼",title:"Claude AI For Business — By Sami Bajwa",desc:"Business mein Claude AI use karne ka mukammal guide. Dual-language (Roman Urdu + English) format mein — marketing se operations tak sab cover.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:13,num:"13",icon:"💻",title:"Claude Code Guide — By Sami Bajwa",desc:"Claude ke saath coding karna seekhein. Sami Bajwa ne ye guide banaya hai jo bataata hai ke AI se real software kaise banate hain step by step.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:14,num:"14",icon:"🛒",title:"Daraz Seller Store — Complete eBook By Sami Bajwa",desc:"Daraz pe apna seller account banana aur products sell karna — animated chapters ke saath step-by-step Roman Urdu guide.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:15,num:"15",icon:"🔍",title:"Free Grok Use Guideline — By Sami Bajwa",desc:"Elon Musk ka AI tool Grok bilkul free mein use karna seekhein. Sami Bajwa ki simple guide jo batati hai Grok se maximum faida kaise uthayein.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:16,num:"16",icon:"💰",title:"Freelancer Bano — By Sami Bajwa",desc:"Bina technical skill ke freelancing shuru karna — Sami Bajwa ki premium ebook jo batati hai ke kaise aap sirf aaj se freelance karna shuru kar sakte hain.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:17,num:"17",icon:"🤖",title:"How to Use Claude — By Sami Bajwa",desc:"Claude AI se maximum hasil karne ka tarika. Sami Bajwa ne Roman Urdu mein ye guide likhi hai jo beginner se advanced Claude users tak ke liye hai.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:18,num:"18",icon:"🔎",title:"Perplexity AI — Computer Use Guide By Sami Bajwa",desc:"Perplexity AI — internet ka sabse powerful free AI search tool — ko kaise use karein? Sami Bajwa ka step-by-step practical guide.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:19,num:"19",icon:"🛠️",title:"Powerful 7 AI Tools — By Sami Bajwa",desc:"Woh 7 AI tools jo har Pakistani student ko aaj jaanne chahiye. Sami Bajwa ne in tools ki practical guide banai hai jisse real results milein.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:20,num:"20",icon:"🎓",title:"Student ID Benefits Guide — By Sami Bajwa",desc:"Student ID se milne wale hazaaron rupay ke free software, GitHub Pro, Azure, Adobe aur discounts. Sami Bajwa ki guide se apna maximum faida uthayein.",cat:"mine",link:"https://drive.google.com/drive/folders/1O95XD4lIp6psWZKvzG41I-HRuXlZhQfH",thumb:""},
+  {id:21,num:"21",icon:"💵",title:"100 Earning Books — Complete Collection by Sami Bajwa",desc:"Sami Bajwa ki 100 Earning Books ka complete folder. Online earning, freelancing, digital marketing, passive income aur business strategies — tamam kuch ek jagah bilkul free.",cat:"earning",link:"https://drive.google.com/drive/folders/1qevtdVUjq5G55M0L1Nb2VWz9nlRSBsB6",thumb:""},
+  {id:22,num:"22",icon:"📈",title:"Online Earning Mastery — 100 Books Folder",desc:"Digital income, affiliate marketing, dropshipping, content creation aur online business — tamam earning strategies ek jagah. Sami Bajwa ki curated collection Pakistani earners ke liye.",cat:"earning",link:"https://drive.google.com/drive/folders/1qevtdVUjq5G55M0L1Nb2VWz9nlRSBsB6",thumb:""},
+  {id:23,num:"23",icon:"🏆",title:"Freelancing & Business Books — Earning Series",desc:"Fiverr, Upwork, freelancing platforms, client handling, pricing strategies — ye tamam topics is folder mein available hain. Pakistani freelancers ke liye specially curated.",cat:"earning",link:"https://drive.google.com/drive/folders/1qevtdVUjq5G55M0L1Nb2VWz9nlRSBsB6",thumb:""},
+  {id:24,num:"24",icon:"💡",title:"Passive Income & Investment — Earning Series",desc:"Passive income streams, smart investments, financial freedom — Sami Bajwa ke earning books collection se apni financial journey shuru karein aur dollars mein kamao.",cat:"earning",link:"https://drive.google.com/drive/folders/1qevtdVUjq5G55M0L1Nb2VWz9nlRSBsB6",thumb:""},
+  {id:25,num:"25",icon:"🌐",title:"Digital Marketing Complete Guide — Earning Series",desc:"Social media marketing, SEO, email marketing, paid ads — digital marketing ka poora ecosystem. Is folder mein sab kuch free milega.",cat:"earning",link:"https://drive.google.com/drive/folders/1qevtdVUjq5G55M0L1Nb2VWz9nlRSBsB6",thumb:""}
+];
+const DEFAULT_SVCS=[
+  {id:1,icon:"🤖",name:"Automation for Business",desc:"Automate your repetitive business tasks using AI and n8n. Save time, eliminate errors, and boost productivity."},
+  {id:2,icon:"📱",name:"Automation for Social Media",desc:"Automate Facebook, Instagram, and WhatsApp posts, replies, and scheduling. Focus on strategy while AI handles execution."},
+  {id:3,icon:"💻",name:"Web Development",desc:"Professional, responsive websites — landing pages, business sites, e-commerce, and booking systems. Modern and fast."},
+  {id:4,icon:"🎨",name:"Web Designing",desc:"Stunning UI/UX designs that turn visitors into customers. Dark luxury, vibrant, or minimal — crafted around your brand."},
+  {id:5,icon:"📲",name:"Web To App Creation",desc:"Convert your website into an Android app ready for the Play Store — without separate development."},
+  {id:6,icon:"💬",name:"WhatsApp Bot Creation",desc:"AI-powered bot on your WhatsApp number — handles customer queries, orders, and appointments 24/7."},
+  {id:7,icon:"✍️",name:"Captions Making",desc:"High-engagement social media captions in Roman Urdu, English, or both. Authentic brand voice that resonates."},
+  {id:8,icon:"📧",name:"Auto Email Controls",desc:"AI-powered email automation — marketing campaigns, auto-replies, and follow-up sequences. Zero manual work."},
+  {id:9,icon:"🎙️",name:"Voice Agents for E-stores",desc:"AI voice agents that speak with customers, take orders, and resolve queries — like a human, 24/7."},
+  {id:10,icon:"🛒",name:"E-store Development",desc:"Full-featured online store with product listings, cart, payment gateway, and order tracking."},
+  {id:11,icon:"🎯",name:"Brand Kit Facilitation",desc:"Complete brand identity — colors, typography, logo, and templates. A package people recognize and remember."},
+  {id:12,icon:"✨",name:"Logo Designing",desc:"Unique, memorable, professional logos. Delivered in vector format — perfect at every size."},
+  {id:13,icon:"📝",name:"Copyright Content Creation",desc:"Original, plagiarism-free content for blogs, websites, and social platforms. Your authentic voice."}
+];
+function getBooks(){return JSON.parse(localStorage.getItem("sb_books")||"null")||DEFAULT_BOOKS;}
+function getSvcs(){return JSON.parse(localStorage.getItem("sb_svcs")||"null")||DEFAULT_SVCS;}
+function saveBooks(a){localStorage.setItem("sb_books",JSON.stringify(a));}
+function saveSvcs(a){localStorage.setItem("sb_svcs",JSON.stringify(a));}
+
+/* ══════ NAVIGATION ══════ */
+function goPage(p){
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll(".nl a").forEach(x=>x.classList.remove("on"));
+  document.getElementById("p-"+p).classList.add("on");
+  const nl=document.getElementById("nl-"+p);
+  if(nl)nl.classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(p==="books")renderBooks();
+  if(p==="hire")renderSvcs();
+  triggerReveal();
+}
+window.addEventListener("scroll",()=>document.getElementById("nav").classList.toggle("sol",scrollY>55));
+function toggleMob(){document.getElementById("mob").classList.toggle("open");}
+
+/* ══════ PARTICLE BG ══════ */
+(function(){
+  const c=document.getElementById("bgc"),ctx=c.getContext("2d");
+  let W,H,P=[];
+  function sz(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  sz();window.addEventListener("resize",sz);
+  const G="rgba(200,168,75,",GR="rgba(52,212,113,";
+  for(let i=0;i<72;i++)P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+.4,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,c:Math.random()>.7?GR:G,a:Math.random()*.45+.12});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const dx=P[i].x-P[j].x,dy=P[i].y-P[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<130){ctx.beginPath();ctx.strokeStyle=P[i].c+(0.1*(1-d/130))+")";ctx.lineWidth=.5;ctx.moveTo(P[i].x,P[i].y);ctx.lineTo(P[j].x,P[j].y);ctx.stroke();}}
+    P.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c+p.a+")";ctx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;});
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══════ REVEAL ══════ */
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("vis");}),{threshold:.08});
+function triggerReveal(){setTimeout(()=>document.querySelectorAll(".rv,.rv-l,.rv-r").forEach(el=>ro.observe(el)),50);}
+triggerReveal();
+
+/* ══════ BOOKS RENDER ══════ */
+let curCat="all";
+function renderBooks(){
+  const bks=getBooks(),g=document.getElementById("books-grid");
+  g.innerHTML="";
+  bks.forEach(b=>{
+    if(curCat!=="all"&&b.cat!==curCat)return;
+    const a=document.createElement("a");
+    a.className="bk";a.href=b.link;a.target="_blank";a.rel="noopener";
+    const th=b.thumb?`<img class="bk-th" src="${b.thumb}" alt="${b.title}"/>`:`<div class="bk-tp">${b.icon}</div>`;
+    a.innerHTML=`${th}<div class="bk-num">${b.num}</div><div class="bk-tt">${b.title}</div><div class="bk-de">${b.desc}</div><div class="bk-ft"><span class="bk-tg">${b.cat==="mine"?"By Sami Bajwa":"AI Book"}</span><span class="bk-ar">→</span></div>`;
+    g.appendChild(a);
+  });
+}
+function filtB(cat,btn){
+  document.querySelectorAll(".fb").forEach(b=>b.classList.remove("on"));
+  btn.classList.add("on");curCat=cat;renderBooks();
+}
+
+/* ══════ SERVICES RENDER ══════ */
+function renderSvcs(){
+  const svcs=getSvcs(),g=document.getElementById("srv-grid");
+  g.innerHTML="";
+  const WSVG=`<svg width="14" height="14" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  svcs.forEach(s=>{
+    const d=document.createElement("div");d.className="srv";
+    d.innerHTML=`<div class="srv-ic">${s.icon}</div><div class="srv-nm">${s.name}</div><div class="srv-tx">${s.desc}</div><div class="srv-wa">${WSVG} Enquire on WhatsApp</div>`;
+    d.onclick=()=>{const m=encodeURIComponent(`Assalam o Alaikum Sami Bajwa! I am interested in your "${s.name}" service. Please provide more details.`);window.open("https://wa.me/923258948738?text="+m,"_blank");};
+    g.appendChild(d);
+  });
+}
+
+/* ══════ ADMIN ══════ */
+function aTab(t,btn){
+  document.querySelectorAll(".atab").forEach(b=>b.classList.remove("on"));
+  btn.classList.add("on");
+  document.querySelectorAll(".apanel").forEach(p=>p.classList.remove("on"));
+  document.getElementById("ap-"+t).classList.add("on");
+}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500);}
+function renderBL(){
+  const bks=getBooks(),l=document.getElementById("bl");l.innerHTML="";
+  bks.forEach(b=>{
+    const r=document.createElement("div");r.className="irow";
+    r.innerHTML=`<div class="iico">${b.thumb?`<img src="${b.thumb}" style="width:36px;height:36px;object-fit:cover;border-radius:4px;">`:b.icon}</div>
+    <div class="iinf"><div class="inm">${b.num}. ${b.title}</div><div class="imeta">${b.cat==="mine"?"By Sami Bajwa":"AI Book"}</div></div>
+    <div class="iact"><button class="bedit" onclick="editB(${b.id})">✏ Edit</button><button class="bdanger" onclick="delB(${b.id})">🗑</button></div>`;
+    l.appendChild(r);
+  });
+}
+function renderSL(){
+  const svcs=getSvcs(),l=document.getElementById("sl");l.innerHTML="";
+  svcs.forEach(s=>{
+    const r=document.createElement("div");r.className="irow";
+    r.innerHTML=`<div class="iico">${s.icon}</div>
+    <div class="iinf"><div class="inm">${s.name}</div><div class="imeta" style="max-width:400px;">${s.desc.substring(0,75)}...</div></div>
+    <div class="iact"><button class="bedit" onclick="editS(${s.id})">✏ Edit</button><button class="bdanger" onclick="delS(${s.id})">🗑</button></div>`;
+    l.appendChild(r);
+  });
+}
+function saveBook(){
+  const eid=document.getElementById("b-eid").value;
+  const t=document.getElementById("b-t").value.trim(),c=document.getElementById("b-c").value;
+  const l=document.getElementById("b-l").value.trim(),i=document.getElementById("b-i").value.trim()||"📖";
+  const d=document.getElementById("b-d").value.trim(),th=document.getElementById("b-th").value.trim();
+  if(!t||!l){toast("⚠ Title and link required!");return;}
+  let bks=getBooks();
+  if(eid){bks=bks.map(b=>b.id==eid?{...b,title:t,cat:c,link:l,icon:i,desc:d,thumb:th}:b);toast("✅ Book updated!");cancelBE();}
+  else{const nid=Math.max(...bks.map(b=>b.id),0)+1;bks.push({id:nid,num:String(nid).padStart(2,"0"),icon:i,title:t,desc:d,cat:c,link:l,thumb:th});toast("✅ Book added!");["b-t","b-l","b-i","b-d","b-th"].forEach(x=>document.getElementById(x).value="");}
+  saveBooks(bks);renderBL();
+}
+function editB(id){const b=getBooks().find(x=>x.id===id);if(!b)return;document.getElementById("b-eid").value=id;document.getElementById("b-t").value=b.title;document.getElementById("b-c").value=b.cat;document.getElementById("b-l").value=b.link;document.getElementById("b-i").value=b.icon;document.getElementById("b-d").value=b.desc;document.getElementById("b-th").value=b.thumb||"";document.getElementById("bft").textContent="✏ Edit Book";document.getElementById("b-ce").style.display="inline-block";document.querySelector("#ap-books .aform").scrollIntoView({behavior:"smooth"});}
+function cancelBE(){document.getElementById("b-eid").value="";["b-t","b-l","b-i","b-d","b-th"].forEach(x=>document.getElementById(x).value="");document.getElementById("bft").textContent="➕ Add New Book";document.getElementById("b-ce").style.display="none";}
+function delB(id){if(!confirm("Delete?"))return;saveBooks(getBooks().filter(b=>b.id!==id));renderBL();toast("🗑 Deleted!");}
+function saveSrv(){
+  const eid=document.getElementById("s-eid").value;
+  const n=document.getElementById("s-n").value.trim(),i=document.getElementById("s-i").value.trim()||"🔧",d=document.getElementById("s-d").value.trim();
+  if(!n||!d){toast("⚠ Name and description required!");return;}
+  let svcs=getSvcs();
+  if(eid){svcs=svcs.map(s=>s.id==eid?{...s,name:n,icon:i,desc:d}:s);toast("✅ Updated!");cancelSE();}
+  else{const nid=Math.max(...svcs.map(s=>s.id),0)+1;svcs.push({id:nid,icon:i,name:n,desc:d});toast("✅ Added!");["s-n","s-i","s-d"].forEach(x=>document.getElementById(x).value="");}
+  saveSvcs(svcs);renderSL();
+}
+function editS(id){const s=getSvcs().find(x=>x.id===id);if(!s)return;document.getElementById("s-eid").value=id;document.getElementById("s-n").value=s.name;document.getElementById("s-i").value=s.icon;document.getElementById("s-d").value=s.desc;document.getElementById("sft").textContent="✏ Edit Service";document.getElementById("s-ce").style.display="inline-block";document.querySelector("#ap-svcs .aform").scrollIntoView({behavior:"smooth"});}
+function cancelSE(){document.getElementById("s-eid").value="";["s-n","s-i","s-d"].forEach(x=>document.getElementById(x).value="");document.getElementById("sft").textContent="➕ Add New Service";document.getElementById("s-ce").style.display="none";}
+function delS(id){if(!confirm("Delete?"))return;saveSvcs(getSvcs().filter(s=>s.id!==id));renderSL();toast("🗑 Deleted!");}
+function resetAll(){if(!confirm("Reset ALL data to defaults?"))return;localStorage.removeItem("sb_books");localStorage.removeItem("sb_svcs");renderBL();renderSL();toast("↺ Reset complete!");}
+
+/* ══════ CHATBOT ══════ */
+const cbm=document.getElementById("cbm");
+
+// Roman Urdu keyword maps - normalize queries
+const RU_MAP = {
+  // greetings
+  "salam":"hello","assalam":"hello","asslam":"hello","hi":"hello","helo":"hello","hey":"hello",
+  // about/who
+  "kon hai":"who is","kaun hai":"who is","kon hain":"who is","kaun hain":"who is",
+  "bare mein":"about","baray mein":"about","baray m":"about","bare m":"about",
+  "btao":"tell me","batao":"tell me","bata":"tell me","btaiye":"tell me",
+  "kya karta":"what does he do","kia karta":"what does he do",
+  "kya hai":"what is","kia hai":"what is",
+  // books
+  "kitabain":"books","kitaben":"books","kitab":"book","book":"book","books":"books",
+  "likheen":"written","likhi":"written","likha":"written",
+  "sari kitabain":"all books","sari books":"all books","tamam books":"all books",
+  "dhundo":"find","talash":"find","search":"find","dhundho":"find",
+  "dikhao":"show","dikhaiye":"show","show karo":"show","show kro":"show",
+  // services
+  "service":"service","services":"services","kaam":"work","kia kaam":"what work",
+  "kya kaam":"what work","hire":"hire","rakh lo":"hire","rakho":"hire",
+  // contact
+  "rabta":"contact","contact":"contact","milna":"meet","baat":"talk",
+  "whatsapp":"whatsapp","number":"phone number","phone":"phone",
+  // general
+  "theek":"ok","thik":"ok","shukriya":"thanks","thanks":"thanks","thank you":"thanks",
+  "help":"help","madad":"help","mushkil":"problem","problem":"problem",
+  "accha":"good","acha":"good","wah":"great","masha allah":"great",
+  "social media":"social media","facebook":"facebook","instagram":"instagram",
+  "free":"free","muft":"free","mufat":"free"
+};
+
+// Sami Bajwa detailed bio in both languages
+const SAMI_BIO_EN = `<strong>Sami Bajwa</strong> is an AI educator, digital entrepreneur, and content creator from <strong>Sargodha, Pakistan</strong>.<br><br>
+🎓 He teaches <strong>free AI education</strong> to thousands of Pakistani students through WhatsApp and Facebook — covering Claude AI, ChatGPT, n8n automation, freelancing, and digital skills.<br><br>
+📚 He has written <strong id='dyn-count-cb-en'></strong> free books — all available on this website at zero cost.<br><br>
+💼 Professionally, he offers <strong>13 services</strong> including web development, automation, WhatsApp bots, and AI solutions.<br><br>
+📍 Based in <strong>Sargodha, Pakistan</strong> · Handle: <strong>@samibajwaisking</strong> everywhere<br><br>
+His mission: <em>"Knowledge doesn't diminish when shared — it multiplies."</em>`;
+
+const SAMI_BIO_RU = `<strong>Sami Bajwa</strong> ek AI educator, digital entrepreneur aur content creator hain <strong>Sargodha, Pakistan</strong> se.<br><br>
+🎓 Woh hazaron Pakistani students ko <strong>bilkul free</strong> AI education dete hain — WhatsApp aur Facebook ke zariye. Claude AI, ChatGPT, n8n automation, freelancing sab cover karte hain.<br><br>
+📚 Unhon ne <strong id='dyn-count-cb-ru'></strong> free books likhi hain — is website par sab free milti hain.<br><br>
+💼 Professional taur par woh <strong>13 services</strong> offer karte hain — web development, automation, WhatsApp bots wagera.<br><br>
+📍 <strong>Sargodha, Pakistan</strong> se hain · Handle: <strong>@samibajwaisking</strong> har jagah`;
+
+function normalizeRU(text) {
+  let t = text.toLowerCase().trim();
+  // Replace Roman Urdu phrases with English equivalents
+  Object.keys(RU_MAP).forEach(k => {
+    t = t.replace(new RegExp(k, 'gi'), RU_MAP[k]);
+  });
+  return t;
+}
+
+function isRomanUrdu(text) {
+  // Detect Roman Urdu by common patterns
+  const ruPatterns = ['hai','hain','mein','ka','ki','ke','ko','ne','se','par','aur','nahi',
+    'kya','koi','sab','ap','aap','main','mujhe','tumhe','unhe','woh','yeh','jo','jab',
+    'kab','kahan','kyun','kitna','kaise','phir','ab','kal','aaj','hoga','tha','thi',
+    'kro','kro','dy','lo','do','jao','aao','btao','likho','bolo','samjho'];
+  const tl = text.toLowerCase();
+  return ruPatterns.some(p => tl.includes(p));
+}
+
+function cbAdd(txt,type){
+  const d=document.createElement("div");
+  d.className="cm "+type;
+  d.innerHTML=txt;
+  cbm.appendChild(d);
+  cbm.scrollTop=cbm.scrollHeight;
+}
+
+function cbType(){
+  const t=document.createElement("div");
+  t.className="cm bot";
+  t.innerHTML=`<div class="cbtyp"><span></span><span></span><span></span></div>`;
+  cbm.appendChild(t);
+  cbm.scrollTop=cbm.scrollHeight;
+  return t;
+}
+
+setTimeout(()=>cbAdd(`👋 Salam! I'm the <strong>Samioutic Assistant</strong>.<br>
+Ask me anything in <strong>English or Roman Urdu</strong>! 📚<br>
+<span style="font-size:.72rem;color:var(--gd);">Aap Roman Urdu mein bhi pooch sakte hain!</span>`,"bot"),500);
+
+window.askQ=function(q){document.getElementById("cbi").value=q;sendCB();}
+window.sendCB=function(){
+  const inp=document.getElementById("cbi"),q=inp.value.trim();
+  if(!q)return;
+  inp.value="";
+  cbAdd(q,"usr");
+  const t=cbType();
+  setTimeout(()=>{t.remove();cbReply(q);},(Math.random()*300+250));
+};
+
+function cbReply(raw) {
+  // Always get FRESH data from localStorage (auto-updates with admin panel)
+  const bks = getBooks();
+  const svcs = getSvcs();
+  const ruMode = isRomanUrdu(raw);
+  const q = normalizeRU(raw);
+  const ql = q.toLowerCase();
+  const rawL = raw.toLowerCase();
+
+  // ── WHO IS SAMI BAJWA ──
+  const samiPatterns = ['sami bajwa','who is sami','sami kaun','sami kon','kon hain sami',
+    'kaun hain sami','sami ke bare','sami ke baray','sami ka','owner','malik','creator',
+    'banane wala','kisne banaya','who made','who created','about sami','tell me about sami',
+    'sami kya karta','sami kia karta','what does sami','educator kaun'];
+  if(samiPatterns.some(p=>rawL.includes(p)||ql.includes(p))) {
+    cbAdd(typeof getLiveBio === 'function' ? getLiveBio(ruMode ? 'ru' : 'en') : (ruMode ? SAMI_BIO_RU : SAMI_BIO_EN), "bot");
+    return;
+  }
+
+  // ── BOOK SEARCH (searches LIVE data from getBooks() so admin adds auto-appear) ──
+  const searchTerms = raw.toLowerCase().split(/\s+/).filter(w=>w.length>2);
+  const matchedBooks = bks.filter(b => {
+    const haystack = (b.title + ' ' + b.desc + ' ' + b.cat + ' ' + b.icon).toLowerCase();
+    return searchTerms.some(term => haystack.includes(term)) ||
+           ql.split(' ').some(w => w.length>3 && haystack.includes(w));
+  });
+
+  if(matchedBooks.length>0 && matchedBooks.length<=6 && 
+     !ql.includes('all') && !ql.includes('sari') && !rawL.includes('tamam') &&
+     !ql.includes('how many') && !rawL.includes('kitni')) {
+    let h = ruMode
+      ? `<strong>${matchedBooks.length}</strong> book(s) mili hain aapke liye:<br><br>`
+      : `Found <strong>${matchedBooks.length}</strong> book(s):<br><br>`;
+    matchedBooks.forEach(b=>{
+      h+=`<strong>${b.num}. ${b.title}</strong><br>
+      <span style="color:#7a7068;font-size:.72rem;">${b.desc.substring(0,90)}...</span><br>
+      <a href="${b.link}" target="_blank" style="font-size:.72rem;">📂 ${ruMode?'Drive mein kholen':'Open in Drive'} →</a><br><br>`;
+    });
+    cbAdd(h,"bot");return;
+  }
+
+  // ── ALL BOOKS ──
+  const allBooksPatterns = ['all book','sari book','tamam book','sab book','list book',
+    'kitni book','how many book','all kitab','sab kitab','books available','show books',
+    'dikhao books','books dikhao','meri books','sami ki books'];
+  if(allBooksPatterns.some(p=>rawL.includes(p)||ql.includes(p))) {
+    let h = ruMode
+      ? `📚 <strong>Sami Bajwa</strong> ki <strong>${bks.length} free books</strong>:<br><br>`
+      : `📚 <strong>${bks.length} free books</strong> by Sami Bajwa:<br><br>`;
+    bks.slice(0,10).forEach(b=>h+=`• <a href="${b.link}" target="_blank" style="color:var(--gold);">${b.num} ${b.title.split("—")[0].trim()}</a><br>`);
+    if(bks.length>10) h+=`<br>...${ruMode?`aur ${bks.length-10} aur hain`:`and ${bks.length-10} more`}. <span style="color:var(--gold);cursor:pointer;" onclick="goPage('books');document.getElementById('cb-box').classList.remove('open')">${ruMode?'Sab dekhen →':'Browse all →'}</span>`;
+    cbAdd(h,"bot");return;
+  }
+
+  // ── SERVICES ──
+  const srvPatterns = ['service','services','hire','kaam','what work','kya kaam','kia kaam',
+    'kya karta','kia karta','kya offer','kia offer','kya provide','freelanc'];
+  if(srvPatterns.some(p=>rawL.includes(p)||ql.includes(p))) {
+    let h = ruMode
+      ? `💼 <strong>Sami Bajwa</strong> ye <strong>${svcs.length} services</strong> offer karte hain:<br><br>`
+      : `💼 <strong>${svcs.length} services</strong> by Sami Bajwa:<br><br>`;
+    svcs.forEach(s=>h+=`• <strong>${s.icon} ${s.name}</strong><br>`);
+    h+=`<br><span style="color:var(--gold);cursor:pointer;" onclick="goPage('hire');document.getElementById('cb-box').classList.remove('open')">${ruMode?'Sab services dekhen aur enquire karein →':'See all & enquire →'}</span>`;
+    cbAdd(h,"bot");return;
+  }
+
+  // ── SERVICE MATCH ──
+  const ms=svcs.filter(s=>s.name.toLowerCase().split(" ").some(w=>w.length>3&&(rawL.includes(w)||ql.includes(w))));
+  if(ms.length>0){
+    const s=ms[0];
+    const m=encodeURIComponent(`Assalam o Alaikum Sami Bajwa! I am interested in your "${s.name}" service. Please provide more details.`);
+    let h=`<strong>${s.icon} ${s.name}</strong><br>
+    <span style="font-size:.75rem;color:#7a7068;">${s.desc}</span><br><br>
+    <a href="https://wa.me/923258948738?text=${m}" target="_blank">💬 ${ruMode?'WhatsApp pe poochein':'Enquire on WhatsApp'} →</a>`;
+    cbAdd(h,"bot");return;
+  }
+
+  // ── CONTACT ──
+  const contactPatterns = ['contact','whatsapp','phone','rabta','milna','reach','number',
+    'call','email','social','facebook','instagram','twitter','threads'];
+  if(contactPatterns.some(p=>rawL.includes(p)||ql.includes(p))) {
+    cbAdd(ruMode
+      ? `📞 <strong>Sami Bajwa</strong> se rabta karein:<br><br>💬 <a href="https://wa.me/923258948738" target="_blank">WhatsApp: +92 325 8948738</a><br>📘 <a href="https://www.facebook.com/samibajwaisking" target="_blank">Facebook: @samibajwaisking</a><br>📸 <a href="https://www.instagram.com/samibajwaisking" target="_blank">Instagram: @samibajwaisking</a><br>🐦 <a href="https://x.com/samibajwa106" target="_blank">X: @samibajwa106</a>`
+      : `📞 Contact <strong>Sami Bajwa</strong>:<br><br>💬 <a href="https://wa.me/923258948738" target="_blank">WhatsApp: +92 325 8948738</a><br>📘 <a href="https://www.facebook.com/samibajwaisking" target="_blank">Facebook: @samibajwaisking</a><br>📸 <a href="https://www.instagram.com/samibajwaisking" target="_blank">Instagram: @samibajwaisking</a><br>🐦 <a href="https://x.com/samibajwa106" target="_blank">X: @samibajwa106</a>`,
+    "bot");return;
+  }
+
+  // ── GREETING ──
+  if(['hello','hi','salam','hey','assalam','helo','aoa'].some(p=>rawL.includes(p))) {
+    cbAdd(ruMode
+      ? `Walaikum Assalam! 👋 Main <strong>Samioutic Assistant</strong> hun.<br>Aap <strong>Sami Bajwa</strong> ke baare mein, books, ya services ke baare mein kuch bhi pooch sakte hain!`
+      : `Hello! 👋 I'm the <strong>Samioutic Assistant</strong>.<br>Ask me about <strong>Sami Bajwa</strong>, books, or services!`,
+    "bot");return;
+  }
+
+  // ── THANKS ──
+  if(['thanks','thank','shukriya','meherbani','jazak'].some(p=>rawL.includes(p))) {
+    cbAdd(ruMode?`Koi baat nahi! 😊 Koi aur sawaal ho to zaroor poochein.`:`You're welcome! 😊 Feel free to ask anything else.`,"bot");return;
+  }
+
+  // ── DEFAULT ──
+  cbAdd(ruMode
+    ? `Maafi chahta hun, samajh nahi aaya. 😊<br><br>Aap ye pooch sakte hain:<br>
+      • "Sami Bajwa kaun hain?"<br>
+      • "AI books dikhao"<br>
+      • "Claude ki book dhundo"<br>
+      • "Kya services offer karte hain?"<br>
+      • "Contact kaise karein?"<br>
+      • Kisi bhi book ka naam likho`
+    : `I didn't quite catch that. 😊<br><br>Try asking:<br>
+      • "Who is Sami Bajwa?"<br>
+      • "Show all AI books"<br>
+      • "Find Claude book"<br>
+      • "What services are offered?"<br>
+      • "How to contact Sami Bajwa?"<br>
+      • Or type any book name to search`,
+  "bot");
+}
+/* ══════ DYNAMIC BOOK COUNT ══════ */
+function updateBookCount() {
+  const n = getBooks().length;
+  const label = n + (n > 9 ? '+' : '');
+  // About section inline text
+  const aboutEl = document.getElementById('dyn-count-about');
+  if(aboutEl) aboutEl.textContent = n + '+';
+  // Stat box
+  const statEl = document.getElementById('dyn-stat-count');
+  if(statEl) statEl.textContent = n + '+';
+  // Update chatbot bio strings dynamically
+  window._dynBookCount = n;
+}
+// Patch SAMI_BIO_EN and SAMI_BIO_RU to use live count at call time
+const _origCbReply = cbReply;
+// Override getBooks to also trigger count update
+const _origGetBooks = getBooks;
+function getBooks() {
+  const result = _origGetBooks();
+  return result;
+}
+// Run on load and after any admin save
+updateBookCount();
+// Patch saveBook to refresh count after save
+const _origSaveBook = saveBook;
+window.saveBook = function() {
+  _origSaveBook();
+  updateBookCount();
+};
+const _origDelB = delB;
+window.delB = function(id) {
+  _origDelB(id);
+  updateBookCount();
+};
+// Also patch chatbot to use live count in bio strings
+function getLiveBio(lang) {
+  const n = getBooks().length;
+  const sn = getServices().length;
+  if(lang === 'en') {
+    return `<strong>Sami Bajwa</strong> is an AI educator, digital entrepreneur, and content creator from <strong>Sargodha, Pakistan</strong>.<br><br>
+🎓 He teaches <strong>free AI education</strong> to thousands of Pakistani students through WhatsApp and Facebook — covering Claude AI, ChatGPT, n8n automation, freelancing, and digital skills.<br><br>
+📚 He has written <strong>${n}+ free books</strong> — all available on this website at zero cost.<br><br>
+💼 Professionally, he offers <strong>${sn} services</strong> including web development, automation, WhatsApp bots, and AI solutions.<br><br>
+📍 Based in <strong>Sargodha, Pakistan</strong> · Handle: <strong>@samibajwaisking</strong> everywhere<br><br>
+His mission: <em>"Knowledge doesn't diminish when shared — it multiplies."</em>`;
+  } else {
+    return `<strong>Sami Bajwa</strong> ek AI educator, digital entrepreneur aur content creator hain <strong>Sargodha, Pakistan</strong> se.<br><br>
+🎓 Woh hazaron Pakistani students ko <strong>bilkul free</strong> AI education dete hain — WhatsApp aur Facebook ke zariye. Claude AI, ChatGPT, n8n automation, freelancing sab cover karte hain.<br><br>
+📚 Unhon ne <strong>${n}+ free books</strong> likhi hain — is website par sab free milti hain.<br><br>
+💼 Professional taur par woh <strong>${sn} services</strong> offer karte hain — web development, automation, WhatsApp bots wagera.<br><br>
+📍 <strong>Sargodha, Pakistan</strong> se hain · Handle: <strong>@samibajwaisking</strong> har jagah`;
+  }
+}
+
+
+/* ══════ ADMIN INTEGRATION — reads from admin panel data ══════ */
+function getAdminColors(){return JSON.parse(localStorage.getItem('sb_colors')||'null');}
+function getAdminCSS(){return localStorage.getItem('sb_custom_css')||'';}
+function getAdminSettings(){return JSON.parse(localStorage.getItem('sb_settings')||'null');}
+function getAdminMenu(){return JSON.parse(localStorage.getItem('sb_menu')||'null');}
+function getAdminPages(){return JSON.parse(localStorage.getItem('sb_pages')||'[]');}
+
+function applyAdminColors(){
+  const c=getAdminColors();
+  if(!c)return;
+  const root=document.documentElement;
+  Object.entries(c).forEach(([k,v])=>root.style.setProperty(k,v));
+}
+
+function applyAdminCSS(){
+  const css=getAdminCSS();
+  let el=document.getElementById('admin-custom-css');
+  if(!el){el=document.createElement('style');el.id='admin-custom-css';document.head.appendChild(el);}
+  el.textContent=css;
+}
+
+function applyAdminSettings(){
+  const s=getAdminSettings();
+  if(!s)return;
+  document.title=s.title||document.title;
+  // Update hero desc
+  const hd=document.querySelector('.hdesc');
+  if(hd&&s.desc)hd.textContent=s.desc;
+  const hl=document.querySelector('.hloc');
+  if(hl&&s.loc)hl.textContent='📍 '+s.loc;
+}
+
+function applyAdminMenu(){
+  const menu=getAdminMenu();
+  const pages=getAdminPages();
+  if(!menu&&pages.length===0)return;
+  const items=menu||[];
+  // Add any live pages not in menu
+  pages.filter(p=>p.menu==='yes'&&p.status==='live').forEach(pg=>{
+    if(!items.find(m=>m.id===pg.id))
+      items.push({id:pg.id,label:pg.title,type:'custom',visible:true,slug:pg.slug});
+  });
+  // Update desktop nav
+  const nl=document.querySelector('.nl');
+  if(nl){
+    // Remove existing custom page items
+    nl.querySelectorAll('.custom-page-nav').forEach(el=>el.remove());
+    items.filter(m=>m.visible&&m.type==='custom').forEach(item=>{
+      const li=document.createElement('li');
+      li.className='custom-page-nav';
+      li.innerHTML=`<a onclick="goPage('${item.id}')" id="nl-${item.id}">${item.label}</a>`;
+      nl.appendChild(li);
+    });
+    // Reorder built-in items based on menu order
+    const builtInOrder=items.filter(m=>m.visible&&m.type==='built-in').map(m=>m.id);
+    builtInOrder.forEach(id=>{
+      const li=nl.querySelector(`#nl-${id}`)?.parentElement;
+      if(li)nl.appendChild(li);
+    });
+  }
+  // Update mobile menu
+  const mob=document.getElementById('mob');
+  if(mob){
+    mob.querySelectorAll('.custom-page-mob').forEach(el=>el.remove());
+    items.filter(m=>m.visible&&m.type==='custom').forEach(item=>{
+      const a=document.createElement('a');
+      a.className='custom-page-mob';
+      a.setAttribute('onclick',`goPage('${item.id}');toggleMob()`);
+      a.textContent=item.label;
+      mob.appendChild(a);
+    });
+  }
+}
+
+function injectCustomPages(){
+  const pages=getAdminPages().filter(p=>p.status==='live');
+  pages.forEach(pg=>{
+    if(document.getElementById('p-'+pg.slug))return; // already exists
+    const div=document.createElement('div');
+    div.className='page';
+    div.id='p-'+pg.id;
+    div.setAttribute('data-slug',pg.slug);
+    div.innerHTML=pg.code;
+    // Insert before footer
+    const footer=document.querySelector('footer');
+    if(footer)footer.parentNode.insertBefore(div,footer);
+    // Execute any scripts in the injected page
+    div.querySelectorAll('script').forEach(oldScript=>{
+      const newScript=document.createElement('script');
+      newScript.textContent=oldScript.textContent;
+      oldScript.parentNode.replaceChild(newScript,oldScript);
+    });
+  });
+}
+
+// Override goPage to handle custom pages
+const _origGoPage = goPage;
+window.goPage = function(p){
+  // Check if it's a custom page id
+  const pages=getAdminPages();
+  const customPage=pages.find(pg=>pg.id===p);
+  if(customPage){
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.nl a').forEach(x=>x.classList.remove('on'));
+    const el=document.getElementById('p-'+p);
+    if(el){
+      el.classList.add('on');
+      const nl=document.getElementById('nl-'+p);
+      if(nl)nl.classList.add('on');
+      window.scrollTo({top:0,behavior:'smooth'});
+      triggerReveal();
+    }
+    return;
+  }
+  _origGoPage(p);
+};
+
+// Apply everything on load
+applyAdminColors();
+applyAdminCSS();
+applyAdminSettings();
+injectCustomPages();
+applyAdminMenu();
+
+/* ══════ LANGUAGE SYSTEM ══════ */
+const LANGS = {
+  en: {
+    nav_home:'Home', nav_books:'Books', nav_hire:'Hire Me',
+    hero_badge:'AI Educator · Digital Entrepreneur · Sargodha, Pakistan',
+    hero_tag:'Free Knowledge. Real Results.',
+    hero_loc:'📍 Sargodha, Pakistan',
+    hero_desc:'Empowering Pakistani students with free AI education, automation guides, and digital skills — no paywalls, no gatekeeping.',
+    hero_btn1:'📚 Free Books', hero_btn2:'💼 Hire Me',
+    about_eye:'Who I Am', about_title:'About', about_em:'Sami Bajwa',
+    about_lead:"I'm <strong>Sami Bajwa</strong> — an AI educator, digital entrepreneur, and content creator on a mission to bring <strong>free knowledge</strong> to every student in Pakistan.",
+    about_p1:"My journey began with one simple belief: technology education is not a privilege — it's a right. Through Facebook communities, WhatsApp groups, and online platforms, I guide thousands of students daily on AI tools, automation, freelancing, and digital earning.",
+    about_p2:"I work deeply with <strong>Claude AI, ChatGPT, n8n Automation</strong>, and modern web technologies. I've authored <span id='dyn-count-about'></span> free books and courses. Professionally, I help businesses with <strong>automation, web development, WhatsApp bots, and AI solutions</strong>.",
+    about_quote:'"Knowledge doesn\'t diminish when shared — it multiplies. Give it freely, give it purely."',
+    why_eye:'The Mission Behind Every Page', why_title:'Why', why_em:'These Books?',
+    why_desc:"Every book Sami Bajwa has written carries one purpose — to give young Pakistanis the tools they need to compete globally, earn independently, and thrive in the age of AI.",
+    why_c1_t:'Zero to Earning — Fast', why_c1_d:"Young Pakistanis are using these books to start freelancing, build AI-powered services, and earn in dollars — often within weeks. No degree needed.",
+    why_c2_t:'Bridging the Knowledge Gap', why_c2_d:"Quality AI education is expensive worldwide. Sami Bajwa wrote in Roman Urdu so every student — regardless of background — gets world-class knowledge free.",
+    why_c3_t:'Real Skills for the Real World', why_c3_d:"Not theory — tools students use today: Claude AI, ChatGPT, n8n, crypto, Daraz selling, and more. Practical, actionable, always current.",
+    why_c4_t:'Community-Driven Impact', why_c4_d:"Thousands of students across Pakistan are part of the Samioutic community. These books sparked real career change.",
+    why_btn:'📚 Browse All Books →',
+    soc_eye:'Find Sami Bajwa Online', soc_title:'Social', soc_em:'Media',
+    books_eye:'Free Library by Sami Bajwa', books_title:'Books &', books_em:'Courses',
+    books_sub:'Click any book — opens directly in Google Drive. Always free.',
+    filter_all:'All Books', filter_ai:'AI Books', filter_mine:'By Sami Bajwa',
+    hire_eye:'Work With Sami Bajwa', hire_title:'Hire', hire_em:'Me',
+    hire_sub:'Professional digital solutions for your business. Click any service to connect on WhatsApp instantly.',
+    wa_btn:'Enquire on WhatsApp',
+    footer_copy:'© 2026',
+    cb_greet:"👋 Hello! I'm the <strong>Samioutic Assistant</strong>.<br>Ask me anything about books, services, or Sami Bajwa! 📚",
+    cb_placeholder:'Search books, ask anything...',
+    cb_q1:'📚 Books', cb_q2:'💼 Services', cb_q3:'📞 Contact', cb_q4:'👤 About',
+  },
+  ru: {
+    nav_home:'Home', nav_books:'Books', nav_hire:'Hire Me',
+    hero_badge:'AI Educator · Digital Entrepreneur · Sargodha, Pakistan',
+    hero_tag:'Free Ilm. Real Nataij.',
+    hero_loc:'📍 Sargodha, Pakistan',
+    hero_desc:'Pakistani students ke liye free AI education, automation guides, aur digital skills — koi paywall nahi, koi gatekeeping nahi.',
+    hero_btn1:'📚 Free Books', hero_btn2:'💼 Hire Me',
+    about_eye:'Kaun Hun Main', about_title:'About', about_em:'Sami Bajwa',
+    about_lead:"Main <strong>Sami Bajwa</strong> hun — AI educator, digital entrepreneur aur content creator jo <strong>free knowledge</strong> Pakistan ke har student tak pohanchana chahta hun.",
+    about_p1:"Mera safar ek simple yaqeen se shuru hua: technology ka ilm sirf kuch logon ka haq nahi, ye har Pakistani student ka haq hai. Facebook aur WhatsApp ke zariye main hazaron students ko roz AI tools, automation, freelancing aur digital earning ke baare mein guide karta hun.",
+    about_p2:"Main <strong>Claude AI, ChatGPT, n8n Automation</strong> aur modern web technologies par deeply kaam karta hun. Maine <span id='dyn-count-about'></span> free books likhi hain — sab free. Professionally main businesses ko <strong>automation, web development, WhatsApp bots, aur AI solutions</strong> deta hun.",
+    about_quote:'"Ilm dene se kam nahi hota — barh jata hai. Seedha dil se do, bina kisi laalach ke."',
+    why_eye:'Har Page Ke Peechhe Mission', why_title:'Ye Books', why_em:'Kyun?',
+    why_desc:"Sami Bajwa ki har book ek maqsad ke saath likhi gayi hai — young Pakistanis ko woh tools dena jo unhe globally compete, independently earn, aur AI age mein thrive karne mein madad karein.",
+    why_c1_t:'Zero se Earning — Jaldi', why_c1_d:"Pakistani students in books se freelancing shuru kar rahe hain, AI-powered services bana rahe hain aur dollars mein kama rahe hain — aksar weeks mein. Koi degree nahi chahiye.",
+    why_c2_t:'Knowledge Gap Khatam Karo', why_c2_d:"AI education duniya bhar mein mehngi hai. Sami Bajwa ne Roman Urdu mein likha taake har student — chahe koi bhi background ho — world-class knowledge free mein le sake.",
+    why_c3_t:'Real Duniya ke Real Skills', why_c3_d:"Theory nahi — woh tools jo students aaj use karte hain: Claude AI, ChatGPT, n8n, crypto, Daraz. Practical, actionable, hamesha updated.",
+    why_c4_t:'Community Ki Taqat', why_c4_d:"Hazaron students Sargodha se Karachi tak Samioutic community mein hain. In books ne real career change kiya.",
+    why_btn:'📚 Sab Books Dekhen →',
+    soc_eye:'Sami Bajwa Ko Online Khojein', soc_title:'Social', soc_em:'Media',
+    books_eye:'Sami Bajwa Ki Free Library', books_title:'Books &', books_em:'Courses',
+    books_sub:'Kisi bhi book par click karein — seedha Google Drive mein khulegi. Bilkul free.',
+    filter_all:'Sab Books', filter_ai:'AI Books', filter_mine:'By Sami Bajwa',
+    hire_eye:'Sami Bajwa Se Kaam Karwayein', hire_title:'Hire', hire_em:'Me',
+    hire_sub:'Professional digital solutions aapke business ke liye. Kisi bhi service par click karein — seedha WhatsApp par pahunch jaenge.',
+    wa_btn:'WhatsApp pe Poochein',
+    footer_copy:'© 2026',
+    cb_greet:"👋 Salam! Main <strong>Samioutic Assistant</strong> hun.<br>Books, services ya Sami Bajwa ke baare mein kuch bhi poochein! 📚",
+    cb_placeholder:'Books search karein, kuch bhi poochein...',
+    cb_q1:'📚 Books', cb_q2:'💼 Services', cb_q3:'📞 Contact', cb_q4:'👤 Sami Bajwa',
+  },
+  ur: {
+    nav_home:'ہوم', nav_books:'کتابیں', nav_hire:'مجھے ہائر کریں',
+    hero_badge:'اے آئی معلم · ڈیجیٹل کاروباری · سرگودھا، پاکستان',
+    hero_tag:'مفت علم۔ حقیقی نتائج۔',
+    hero_loc:'📍 سرگودھا، پاکستان',
+    hero_desc:'پاکستانی طلبہ کے لیے مفت AI تعلیم، آٹومیشن گائیڈز اور ڈیجیٹل مہارتیں — کوئی پابندی نہیں، مکمل مفت۔',
+    hero_btn1:'📚 مفت کتابیں', hero_btn2:'💼 ہائر کریں',
+    about_eye:'میں کون ہوں', about_title:'تعارف', about_em:'سمیع باجوہ',
+    about_lead:"میں <strong>سمیع باجوہ</strong> ہوں — AI معلم، ڈیجیٹل کاروباری اور کنٹینٹ کریٹر جو پاکستان کے ہر طالب علم تک <strong>مفت علم</strong> پہنچانا چاہتا ہے۔",
+    about_p1:"میرا سفر ایک سادہ یقین سے شروع ہوا: ٹیکنالوجی کی تعلیم صرف چند لوگوں کا حق نہیں — یہ ہر پاکستانی طالب علم کا حق ہے۔ فیس بک اور واٹس ایپ کے ذریعے میں ہزاروں طلبہ کو روزانہ AI ٹولز، آٹومیشن اور فری لانسنگ کے بارے میں رہنمائی کرتا ہوں۔",
+    about_p2:"میں <strong>Claude AI، ChatGPT، n8n Automation</strong> اور جدید ویب ٹیکنالوجیز پر کام کرتا ہوں۔ میں نے <span id='dyn-count-about'></span> مفت کتابیں لکھی ہیں۔ پیشہ ورانہ طور پر کاروباروں کو <strong>آٹومیشن، ویب ڈویلپمنٹ اور AI حل</strong> فراہم کرتا ہوں۔",
+    about_quote:'"علم بانٹنے سے کم نہیں ہوتا — بڑھتا ہے۔ خلوص سے دو، لالچ کے بغیر۔"',
+    why_eye:'ہر صفحے کے پیچھے مشن', why_title:'یہ کتابیں', why_em:'کیوں؟',
+    why_desc:"سمیع باجوہ کی ہر کتاب ایک مقصد کے ساتھ لکھی گئی ہے — نوجوان پاکستانیوں کو وہ ٹولز دینا جو انہیں AI دور میں ترقی دلائیں۔",
+    why_c1_t:'صفر سے آمدنی', why_c1_d:"پاکستانی طلبہ ان کتابوں سے فری لانسنگ شروع کر رہے ہیں اور ڈالرز میں کما رہے ہیں — اکثر چند ہفتوں میں۔",
+    why_c2_t:'علم کا فرق ختم کریں', why_c2_d:"AI تعلیم دنیا بھر میں مہنگی ہے۔ سمیع باجوہ نے اردو میں لکھا تاکہ ہر طالب علم مفت میں عالمی معیار کا علم حاصل کر سکے۔",
+    why_c3_t:'حقیقی مہارتیں', why_c3_d:"نظریہ نہیں — وہ ٹولز جو طلبہ آج استعمال کرتے ہیں: Claude AI، ChatGPT، n8n، کرپٹو، داراز۔ عملی اور تازہ ترین۔",
+    why_c4_t:'کمیونٹی کی طاقت', why_c4_d:"ہزاروں طلبہ سرگودھا سے کراچی تک Samioutic کمیونٹی میں ہیں۔ ان کتابوں نے حقیقی کیریئر تبدیل کیا۔",
+    why_btn:'📚 تمام کتابیں دیکھیں →',
+    soc_eye:'سمیع باجوہ کو آن لائن تلاش کریں', soc_title:'سوشل', soc_em:'میڈیا',
+    books_eye:'سمیع باجوہ کی مفت لائبریری', books_title:'کتابیں اور', books_em:'کورسز',
+    books_sub:'کسی بھی کتاب پر کلک کریں — براہ راست گوگل ڈرائیو میں کھلے گی۔ مکمل مفت۔',
+    filter_all:'تمام کتابیں', filter_ai:'AI کتابیں', filter_mine:'از سمیع باجوہ',
+    hire_eye:'سمیع باجوہ سے کام کروائیں', hire_title:'مجھے', hire_em:'ہائر کریں',
+    hire_sub:'آپ کے کاروبار کے لیے پیشہ ورانہ ڈیجیٹل حل۔ کسی بھی سروس پر کلک کریں — واٹس ایپ پر پہنچ جائیں گے۔',
+    wa_btn:'واٹس ایپ پر پوچھیں',
+    footer_copy:'© 2026',
+    cb_greet:"👋 السلام علیکم! میں <strong>Samioutic Assistant</strong> ہوں۔<br>کتابوں، سروسز یا سمیع باجوہ کے بارے میں کچھ بھی پوچھیں! 📚",
+    cb_placeholder:'کتابیں تلاش کریں، کچھ بھی پوچھیں...',
+    cb_q1:'📚 کتابیں', cb_q2:'💼 سروسز', cb_q3:'📞 رابطہ', cb_q4:'👤 تعارف',
+  }
+};
+
+// Generic translations for other languages (using Google Translate API style text)
+const LANG_GENERIC = {
+  ar:{ name:'العربية', hero_tag:'معرفة مجانية. نتائج حقيقية.', hero_desc:'تمكين الطلاب الباكستانيين بتعليم الذكاء الاصطناعي المجاني — بدون رسوم.', books_sub:'انقر على أي كتاب — يفتح مباشرة في Google Drive. مجاناً دائماً.', wa_btn:'استفسر عبر واتساب', cb_greet:"👋 مرحباً! أنا <strong>Samioutic Assistant</strong>. اسألني عن الكتب أو الخدمات!" },
+  hi:{ name:'हिन्दी', hero_tag:'मुफ्त ज्ञान। असली परिणाम।', hero_desc:'पाकिस्तानी छात्रों के लिए मुफ्त AI शिक्षा — कोई पेवॉल नहीं, कोई रोक नहीं।', books_sub:'किसी भी किताब पर क्लिक करें — सीधे Google Drive में खुलेगी। हमेशा मुफ्त।', wa_btn:'WhatsApp पर पूछें', cb_greet:"👋 नमस्ते! मैं <strong>Samioutic Assistant</strong> हूं। किताबों या सेवाओं के बारे में पूछें!" },
+  fr:{ name:'Français', hero_tag:'Savoir libre. Résultats réels.', hero_desc:'Formation IA gratuite pour les étudiants pakistanais — sans frais, sans restriction.', books_sub:'Cliquez sur un livre — il s\'ouvre directement dans Google Drive. Toujours gratuit.', wa_btn:'Demande sur WhatsApp', cb_greet:"👋 Bonjour! Je suis <strong>Samioutic Assistant</strong>. Posez-moi des questions sur les livres ou services!" },
+  de:{ name:'Deutsch', hero_tag:'Freies Wissen. Echte Ergebnisse.', hero_desc:'Kostenlose KI-Bildung für pakistanische Studierende — ohne Paywalls.', books_sub:'Klicken Sie auf ein Buch — öffnet direkt in Google Drive. Immer kostenlos.', wa_btn:'Auf WhatsApp anfragen', cb_greet:"👋 Hallo! Ich bin der <strong>Samioutic Assistant</strong>. Fragen Sie mich über Bücher oder Services!" },
+  es:{ name:'Español', hero_tag:'Conocimiento libre. Resultados reales.', hero_desc:'Educación de IA gratuita para estudiantes pakistaníes — sin muros de pago.', books_sub:'Haz clic en cualquier libro — se abre directamente en Google Drive. Siempre gratis.', wa_btn:'Preguntar en WhatsApp', cb_greet:"👋 ¡Hola! Soy el <strong>Asistente Samioutic</strong>. ¡Pregúntame sobre libros o servicios!" },
+  zh:{ name:'中文', hero_tag:'免费知识。真实成果。', hero_desc:'为巴基斯坦学生提供免费AI教育 — 无付费墙，无限制。', books_sub:'点击任意书籍 — 直接在Google Drive中打开。永远免费。', wa_btn:'WhatsApp咨询', cb_greet:"👋 你好！我是<strong>Samioutic助手</strong>。询问书籍或服务！" },
+  ja:{ name:'日本語', hero_tag:'無料の知識。本物の結果。', hero_desc:'パキスタンの学生への無料AI教育 — 制限なし。', books_sub:'本をクリック — Google Driveで直接開きます。いつも無料。', wa_btn:'WhatsAppで問い合わせ', cb_greet:"👋 こんにちは！<strong>Samiouticアシスタント</strong>です。本やサービスについて聞いてください！" },
+  ko:{ name:'한국어', hero_tag:'무료 지식. 실제 결과.', hero_desc:'파키스탄 학생을 위한 무료 AI 교육 — 페이월 없음.', books_sub:'책을 클릭하면 Google Drive에서 바로 열립니다. 항상 무료.', wa_btn:'WhatsApp으로 문의', cb_greet:"👋 안녕하세요! <strong>Samioutic 어시스턴트</strong>입니다. 책이나 서비스에 대해 물어보세요!" },
+  tr:{ name:'Türkçe', hero_tag:'Özgür Bilgi. Gerçek Sonuçlar.', hero_desc:'Pakistanlı öğrenciler için ücretsiz AI eğitimi — ödeme duvarı yok.', books_sub:'Herhangi bir kitaba tıklayın — Google Drive\'da açılır. Her zaman ücretsiz.', wa_btn:'WhatsApp\'ta Sor', cb_greet:"👋 Merhaba! <strong>Samioutic Asistanı</strong>yım. Kitaplar veya hizmetler hakkında sorun!" },
+  pt:{ name:'Português', hero_tag:'Conhecimento livre. Resultados reais.', hero_desc:'Educação de IA gratuita para estudantes paquistaneses — sem barreiras.', books_sub:'Clique em qualquer livro — abre diretamente no Google Drive. Sempre grátis.', wa_btn:'Perguntar no WhatsApp', cb_greet:"👋 Olá! Sou o <strong>Assistente Samioutic</strong>. Pergunte sobre livros ou serviços!" },
+  id:{ name:'Bahasa Indonesia', hero_tag:'Pengetahuan Gratis. Hasil Nyata.', hero_desc:'Pendidikan AI gratis untuk pelajar Pakistan — tanpa paywall.', books_sub:'Klik buku mana saja — terbuka langsung di Google Drive. Selalu gratis.', wa_btn:'Tanya di WhatsApp', cb_greet:"👋 Halo! Saya <strong>Asisten Samioutic</strong>. Tanyakan tentang buku atau layanan!" },
+  pa:{ name:'پنجابی', hero_tag:'مفت علم۔ اصلی نتیجے۔', hero_desc:'پاکستانی طلبہ لئی مفت AI تعلیم — کوئی پابندی نئیں۔', books_sub:'کسی وی کتاب تے کلک کرو — سیدھا گوگل ڈرائیو وچ کھلے گی۔ بالکل مفت۔', wa_btn:'واٹس ایپ تے پچھو', cb_greet:"👋 ستِ سری اکال! میں <strong>Samioutic Assistant</strong> آں۔ کتاباں یا سروسز بارے پچھو!" },
+  fa:{ name:'فارسی', hero_tag:'دانش رایگان. نتایج واقعی.', hero_desc:'آموزش هوش مصنوعی رایگان برای دانش‌آموزان پاکستانی.', books_sub:'روی هر کتاب کلیک کنید — مستقیم در Google Drive باز می‌شود. همیشه رایگان.', wa_btn:'در واتساپ بپرسید', cb_greet:"👋 سلام! من <strong>Samioutic Assistant</strong> هستم. درباره کتاب‌ها یا خدمات بپرسید!" },
+  bn:{ name:'বাংলা', hero_tag:'বিনামূল্যে জ্ঞান। বাস্তব ফলাফল।', hero_desc:'পাকিস্তানি ছাত্রদের জন্য বিনামূল্যে AI শিক্ষা।', books_sub:'যেকোনো বইতে ক্লিক করুন — সরাসরি Google Drive-এ খুলবে। সর্বদা বিনামূল্যে।', wa_btn:'WhatsApp-এ জিজ্ঞেস করুন', cb_greet:"👋 নমস্কার! আমি <strong>Samioutic Assistant</strong>। বই বা সেবা সম্পর্কে জিজ্ঞেস করুন!" },
+  sw:{ name:'Kiswahili', hero_tag:'Maarifa Bure. Matokeo Halisi.', hero_desc:'Elimu ya AI bure kwa wanafunzi wa Pakistan — bila malipo.', books_sub:'Bonyeza kitabu chochote — kinafunguka moja kwa moja kwenye Google Drive. Bure daima.', wa_btn:'Uliza kwenye WhatsApp', cb_greet:"👋 Habari! Mimi ni <strong>Msaidizi wa Samioutic</strong>. Niulize kuhusu vitabu au huduma!" },
+  ru_lang:{ name:'Русский', hero_tag:'Бесплатные знания. Реальные результаты.', hero_desc:'Бесплатное образование в области ИИ для пакистанских студентов — без ограничений.', books_sub:'Нажмите на любую книгу — откроется прямо в Google Drive. Всегда бесплатно.', wa_btn:'Спросить в WhatsApp', cb_greet:"👋 Привет! Я <strong>Samioutic Assistant</strong>. Спросите о книгах или услугах!" },
+  it:{ name:'Italiano', hero_tag:'Conoscenza libera. Risultati reali.', hero_desc:'Formazione AI gratuita per studenti pakistani — senza barriere.', books_sub:'Clicca su qualsiasi libro — si apre direttamente in Google Drive. Sempre gratis.', wa_btn:'Chiedi su WhatsApp', cb_greet:"👋 Ciao! Sono l'<strong>Assistente Samioutic</strong>. Chiedi di libri o servizi!" }
+};
+
+let currentLang = 'en';
+
+function toggleLangDrop() {
+  const btn = document.getElementById('langBtn');
+  const drop = document.getElementById('langDrop');
+  btn.classList.toggle('open');
+  drop.classList.toggle('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.querySelector('.lang-wrap');
+  if(wrap && !wrap.contains(e.target)) {
+    document.getElementById('langBtn')?.classList.remove('open');
+    document.getElementById('langDrop')?.classList.remove('open');
+  }
+});
+
+function setLang(lang, code, el) {
+  currentLang = lang;
+  // Update button
+  document.getElementById('langCode').textContent = code;
+  document.querySelectorAll('.lang-item').forEach(x => x.classList.remove('active'));
+  if(el) el.classList.add('active');
+  // Close dropdown
+  document.getElementById('langBtn').classList.remove('open');
+  document.getElementById('langDrop').classList.remove('open');
+  // Apply translations
+  applyLang(lang);
+}
+
+function applyLang(lang) {
+  const T = LANGS[lang] || buildGeneric(lang);
+  if(!T) return;
+  
+  // Determine text direction
+  const rtlLangs = ['ur','ar','fa','pa','he'];
+  document.documentElement.dir = rtlLangs.includes(lang) ? 'rtl' : 'ltr';
+  
+  // Nav
+  const h = document.getElementById('nl-home'); if(h) h.textContent = T.nav_home;
+  const b = document.getElementById('nl-books'); if(b) b.textContent = T.nav_books;
+  const hr = document.getElementById('nl-hire'); if(hr) hr.textContent = T.nav_hire;
+  
+  // Hero
+  const badge = document.querySelector('.ebrow');
+  if(badge && T.hero_badge) { badge.innerHTML = `<div class="edot"></div>${T.hero_badge}`; }
+  const htag = document.querySelector('.htag'); if(htag) htag.textContent = T.hero_tag;
+  const hloc = document.querySelector('.hloc'); if(hloc) hloc.textContent = T.hero_loc||'📍 Sargodha, Pakistan';
+  const hdesc = document.querySelector('.hdesc'); if(hdesc) hdesc.textContent = T.hero_desc;
+  const hb1 = document.querySelector('.hbtns .btn-gold'); if(hb1) hb1.textContent = T.hero_btn1;
+  const hb2 = document.querySelector('.hbtns .btn-green'); if(hb2) hb2.textContent = T.hero_btn2;
+  
+  // About section
+  const aeye = document.querySelector('#p-home .seye'); if(aeye) aeye.textContent = T.about_eye;
+  const atitle = document.querySelector('#p-home .stitle');
+  if(atitle && T.about_title) atitle.innerHTML = `${T.about_title} <em>${T.about_em}</em>`;
+  const lead = document.querySelector('.atext .lead'); if(lead) lead.innerHTML = T.about_lead;
+  const paras = document.querySelectorAll('.atext p:not(.lead)');
+  if(paras[0] && T.about_p1) paras[0].innerHTML = T.about_p1;
+  if(paras[1] && T.about_p2) paras[1].innerHTML = T.about_p2;
+  const qt = document.querySelector('.qt'); if(qt && T.about_quote) { qt.innerHTML = T.about_quote + `<br><span style="font-size:.78rem;color:var(--gd);font-style:normal;letter-spacing:2px;">— Sami Bajwa</span>`; }
+  
+  // Why section
+  const wcs = document.querySelectorAll('.wc');
+  const wtitles = document.querySelectorAll('.wt');
+  const wdescs = document.querySelectorAll('.wd');
+  if(wtitles[0]) wtitles[0].textContent = T.why_c1_t||'';
+  if(wdescs[0]) wdescs[0].textContent = T.why_c1_d||'';
+  if(wtitles[1]) wtitles[1].textContent = T.why_c2_t||'';
+  if(wdescs[1]) wdescs[1].textContent = T.why_c2_d||'';
+  if(wtitles[2]) wtitles[2].textContent = T.why_c3_t||'';
+  if(wdescs[2]) wdescs[2].textContent = T.why_c3_d||'';
+  if(wtitles[3]) wtitles[3].textContent = T.why_c4_t||'';
+  if(wdescs[3]) wdescs[3].textContent = T.why_c4_d||'';
+  const whyBtn = document.querySelector('#p-home .why-g + div .btn-gold');
+  if(whyBtn) whyBtn.textContent = T.why_btn||'📚 Browse All Books →';
+  
+  // Books page
+  const bsub = document.querySelector('#p-books .page-hero p'); if(bsub) bsub.textContent = T.books_sub||'';
+  const fbtns = document.querySelectorAll('.fb');
+  if(fbtns[0]) fbtns[0].textContent = T.filter_all||'All Books';
+  if(fbtns[1]) fbtns[1].textContent = T.filter_ai||'AI Books';
+  if(fbtns[2]) fbtns[2].textContent = T.filter_mine||'By Sami Bajwa';
+  
+  // Hire page
+  const hsub = document.querySelector('#p-hire .page-hero p'); if(hsub) hsub.textContent = T.hire_sub||'';
+  // Update all WA buttons text
+  document.querySelectorAll('.srv-wa').forEach(btn => {
+    const svg = btn.querySelector('svg');
+    const svgHTML = svg ? svg.outerHTML : '';
+    btn.innerHTML = svgHTML + ' ' + (T.wa_btn||'Enquire on WhatsApp');
+  });
+  
+  // Footer
+  const fcp = document.querySelector('.fcp');
+  if(fcp) fcp.innerHTML = `${T.footer_copy} <strong>Sami Bajwa</strong> · Sargodha, Pakistan`;
+  
+  // Chatbot greeting & placeholder
+  const cbi = document.getElementById('cbi'); if(cbi) cbi.placeholder = T.cb_placeholder||'Ask anything...';
+  // Update quick buttons
+  const qbs = document.querySelectorAll('.cqb');
+  if(qbs[0]) qbs[0].textContent = T.cb_q1||'📚 Books';
+  if(qbs[1]) qbs[1].textContent = T.cb_q2||'💼 Services';
+  if(qbs[2]) qbs[2].textContent = T.cb_q3||'📞 Contact';
+  if(qbs[3]) qbs[3].textContent = T.cb_q4||'👤 About';
+  
+  updateBookCount();
+}
+
+function buildGeneric(lang) {
+  if(LANG_GENERIC[lang]) {
+    // Merge with English base
+    return Object.assign({}, LANGS['en'], LANG_GENERIC[lang]);
+  }
+  return LANGS['en'];
+}
+
+/* ══════ FIXED CHATBOT - NO DUPLICATE SAMI BIO, FULL ANSWERS ══════ */
+// Override getLiveBio to use current language
+function getLiveBio(langHint) {
+  const n = getBooks().length;
+  const sn = getServices().length;
+  const L = currentLang;
+  
+  if(L === 'ur') return `<strong>سمیع باجوہ</strong> سرگودھا، پاکستان سے AI معلم اور ڈیجیٹل کاروباری ہیں۔<br><br>🎓 وہ واٹس ایپ اور فیس بک کے ذریعے ہزاروں پاکستانی طلبہ کو <strong>مفت AI تعلیم</strong> دیتے ہیں۔<br><br>📚 انہوں نے <strong>${n}+ مفت کتابیں</strong> لکھی ہیں — تمام اس ویب سائٹ پر مفت دستیاب ہیں۔<br><br>💼 وہ <strong>${sn} پیشہ ورانہ خدمات</strong> پیش کرتے ہیں۔<br><br>📍 <strong>سرگودھا، پاکستان</strong> سے · <strong>@samibajwaisking</strong>`;
+  
+  if(L === 'ru') return `<strong>Sami Bajwa</strong> Sargodha, Pakistan se AI educator aur digital entrepreneur hain.<br><br>🎓 Woh WhatsApp aur Facebook ke zariye hazaron Pakistani students ko <strong>bilkul free AI education</strong> dete hain — Claude AI, ChatGPT, n8n automation, freelancing sab.<br><br>📚 Unhon ne <strong>${n}+ free books</strong> likhi hain — sab is website par bilkul free hain.<br><br>💼 Professional taur par woh <strong>${sn} services</strong> offer karte hain — web development, automation, WhatsApp bots wagera.<br><br>📍 <strong>Sargodha, Pakistan</strong> · Handle: <strong>@samibajwaisking</strong> har jagah<br><br><em>"Ilm dene se kam nahi hota — barh jata hai."</em>`;
+  
+  if(LANG_GENERIC[L]) {
+    return `<strong>Sami Bajwa</strong> — AI Educator from Sargodha, Pakistan.<br><br>🎓 Free AI education for Pakistani students via WhatsApp & Facebook.<br><br>📚 <strong>${n}+ free books</strong> available on this website.<br><br>💼 <strong>${sn} professional services</strong> available.<br><br>📍 Sargodha, Pakistan · @samibajwaisking`;
+  }
+  
+  // Default English
+  return `<strong>Sami Bajwa</strong> is an AI educator, digital entrepreneur, and content creator from <strong>Sargodha, Pakistan</strong>.<br><br>🎓 He teaches <strong>free AI education</strong> to thousands of Pakistani students through WhatsApp and Facebook — covering Claude AI, ChatGPT, n8n automation, freelancing, and digital skills.<br><br>📚 He has written <strong>${n}+ free books</strong> — all available on this website at zero cost.<br><br>💼 Professionally, he offers <strong>${sn} services</strong> including web development, automation, WhatsApp bots, and AI solutions.<br><br>📍 Based in <strong>Sargodha, Pakistan</strong> · Handle: <strong>@samibajwaisking</strong> everywhere<br><br><em>"Knowledge doesn't diminish when shared — it multiplies."</em>`;
+}
+
+// Prevent duplicate — track last sami bio shown
+let _lastSamiBioTime = 0;
+const _origCbReplyFn = cbReply;
+window.cbReply = function(raw) {
+  // Sami bio dedup — if shown in last 2 seconds, skip
+  const samiPatterns = ['sami bajwa','who is sami','sami kaun','sami kon','kon hain sami',
+    'kaun hain sami','sami ke bare','sami ke baray','owner','creator','banane wala',
+    'kisne banaya','who made','about sami','sami kya karta','educator kaun',
+    'kaun hai','kon hai','who is','bare mein bata','baray mein bata'];
+  const rawL = raw.toLowerCase();
+  if(samiPatterns.some(p => rawL.includes(p))) {
+    if(Date.now() - _lastSamiBioTime < 2000) return; // prevent double fire
+    _lastSamiBioTime = Date.now();
+    cbAdd(getLiveBio(), "bot");
+    return;
+  }
+  _origCbReplyFn(raw);
+};
+</script>
+</body></html>
