@@ -951,6 +951,259 @@
   }
   .lightbox-close:hover { background: rgba(4,30,51,0.95); }
 
+  /* ── FREE DEMO SECTION ── */
+  #free-demo {
+    background: rgba(0,20,40,0.5);
+    text-align: center;
+  }
+  .demo-cta-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .demo-glow-card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 24px;
+    padding: 3.5rem 2.5rem;
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,212,255,0.06), 0 30px 80px rgba(0,0,0,0.3);
+  }
+  .demo-glow-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 80%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  }
+  .demo-glow-card::after {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .demo-icon-big { font-size: 3rem; margin-bottom: 1rem; display: block; filter: drop-shadow(0 0 16px rgba(0,212,255,0.4)); }
+  .demo-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 0.8rem;
+    line-height: 1.15;
+  }
+  .demo-title span { color: var(--cyan); }
+  .demo-subtitle {
+    font-size: 0.95rem;
+    color: rgba(200,240,255,0.65);
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.7;
+  }
+  .demo-badges {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .demo-badge {
+    padding: 5px 14px;
+    background: rgba(0,212,255,0.07);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ice-accent);
+  }
+  .btn-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--ice-glow), var(--cyan));
+    color: var(--bg-deep);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(0,212,255,0.4);
+    text-decoration: none;
+  }
+  .btn-demo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 50px rgba(0,212,255,0.6);
+  }
+  .demo-note-small {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: rgba(168,230,255,0.35);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── DEMO REQUEST POPUP ── */
+  #demoPopup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(1,11,24,0.88);
+    backdrop-filter: blur(14px);
+    z-index: 11000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  #demoPopup.active { display: flex; }
+  .demo-popup-box {
+    background: rgba(4,30,51,0.98);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 22px;
+    padding: 2.5rem 2rem;
+    width: min(520px, 100%);
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 60px rgba(0,212,255,0.07);
+    margin: auto;
+  }
+  .demo-popup-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 70%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  }
+  .demo-popup-header {
+    text-align: center;
+    margin-bottom: 1.8rem;
+  }
+  .demo-popup-header .dp-icon { font-size: 2rem; display: block; margin-bottom: 0.6rem; }
+  .demo-popup-header h3 {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .demo-popup-header p { font-size: 0.8rem; color: var(--muted); }
+  .demo-form { display: flex; flex-direction: column; gap: 0.9rem; }
+  .demo-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .demo-form .form-field label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; display: block; }
+  .demo-form input,
+  .demo-form select,
+  .demo-form textarea {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    width: 100%;
+    resize: none;
+  }
+  .demo-form select option { background: #021525; color: var(--white); }
+  .demo-form input::placeholder,
+  .demo-form textarea::placeholder { color: rgba(168,230,255,0.2); }
+  .demo-form input:focus,
+  .demo-form select:focus,
+  .demo-form textarea:focus {
+    border-color: rgba(0,212,255,0.4);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.07);
+  }
+  .btn-demo-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--ice-glow), var(--cyan));
+    color: var(--bg-deep);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 24px rgba(0,212,255,0.35);
+    margin-top: 0.4rem;
+  }
+  .btn-demo-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(0,212,255,0.55);
+  }
+  .demo-popup-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 32px; height: 32px;
+    background: rgba(1,11,24,0.6);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--ice-1);
+    transition: background 0.2s;
+  }
+  .demo-popup-close:hover { background: rgba(4,30,51,0.9); }
+
+  /* ── DEMO SUCCESS POPUP ── */
+  #demoSuccess {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(1,11,24,0.9);
+    backdrop-filter: blur(16px);
+    z-index: 12000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  #demoSuccess.active { display: flex; }
+  .success-box {
+    background: rgba(4,30,51,0.98);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 22px;
+    padding: 3rem 2rem;
+    width: min(420px, 100%);
+    text-align: center;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  }
+  .success-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
+  .success-box h3 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .success-box p { font-size: 0.88rem; color: rgba(200,240,255,0.65); line-height: 1.7; margin-bottom: 1.5rem; }
+  .success-note {
+    background: rgba(0,212,255,0.07);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 0.82rem;
+    color: var(--ice-accent);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 540px) {
+    .demo-form-row { grid-template-columns: 1fr; }
+    .demo-glow-card { padding: 2.5rem 1.5rem; }
+  }
+
   body { padding-bottom: 34px; }
 </style>
 </head>
@@ -969,6 +1222,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#credentials">Credentials</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#free-demo">Free Demo</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -982,6 +1236,7 @@
   <a href="#about" onclick="closeMenu()">About</a>
   <a href="#credentials" onclick="closeMenu()">Credentials</a>
   <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#free-demo" onclick="closeMenu()">Free Demo</a>
   <a href="#gallery" onclick="closeMenu()">Gallery</a>
   <a href="#contact" onclick="closeMenu()">Contact</a>
 </div>
@@ -1319,6 +1574,29 @@
   </div>
 </section>
 
+<!-- FREE DEMO WEBSITE SECTION -->
+<section id="free-demo">
+  <div class="demo-cta-wrap reveal">
+    <div class="demo-glow-card">
+      <span class="demo-icon-big">🚀</span>
+      <h2 class="demo-title">Want a <span>Free Demo</span> of Your Website?</h2>
+      <p class="demo-subtitle">
+        Tell me about your business — I'll build a live, working demo of your website within <strong style="color:var(--ice-1);">24 hours</strong>. You only pay after you love it.
+      </p>
+      <div class="demo-badges">
+        <span class="demo-badge">✅ No Upfront Payment</span>
+        <span class="demo-badge">⚡ Live in 24 Hours</span>
+        <span class="demo-badge">🎯 100% Custom Design</span>
+        <span class="demo-badge">📱 Mobile Responsive</span>
+      </div>
+      <button class="btn-demo" onclick="openDemoPopup()">
+        🌐 Request Free Demo →
+      </button>
+      <p class="demo-note-small">Free demo · Live link · Pay only when satisfied</p>
+    </div>
+  </div>
+</section>
+
 <!-- GALLERY -->
 <section id="gallery">
   <div style="max-width:1200px; margin:0 auto;">
@@ -1543,7 +1821,7 @@
           <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
             Send Message →
           </button>
-          <p class="form-note">This form sends directly to my email. I respond within 24 hours.</p>
+          <p class="form-note">This will open WhatsApp with your message pre-filled. I respond within 24 hours.</p>
         </form>
       </div>
     </div>
@@ -1561,6 +1839,82 @@
     <div class="lightbox-close" onclick="closeLightbox()">✕</div>
     <img id="lightboxImg" src="" alt="">
     <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<!-- DEMO REQUEST POPUP -->
+<div id="demoPopup">
+  <div class="demo-popup-box">
+    <div class="demo-popup-close" onclick="closeDemoPopup()">✕</div>
+    <div class="demo-popup-header">
+      <span class="dp-icon">🌐</span>
+      <h3>Request Your Free Website Demo</h3>
+      <p>Fill in your details — get a live demo link within 24 hours. No payment needed upfront.</p>
+    </div>
+    <div class="demo-form" id="demoForm">
+      <div class="demo-form-row">
+        <div class="form-field">
+          <label>Your Name *</label>
+          <input type="text" id="dName" placeholder="Ahmad Ali" required>
+        </div>
+        <div class="form-field">
+          <label>Business Name *</label>
+          <input type="text" id="dBusiness" placeholder="Ali Traders" required>
+        </div>
+      </div>
+      <div class="demo-form-row">
+        <div class="form-field">
+          <label>WhatsApp Number *</label>
+          <input type="tel" id="dWhatsapp" placeholder="+92 300 1234567" required>
+        </div>
+        <div class="form-field">
+          <label>Email Address</label>
+          <input type="email" id="dEmail" placeholder="you@example.com">
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Business Type *</label>
+        <select id="dType" required>
+          <option value="" disabled selected>Select your business type</option>
+          <option>Restaurant / Cafe / Food</option>
+          <option>Retail Store / Shop</option>
+          <option>Real Estate / Property</option>
+          <option>Medical / Clinic / Hospital</option>
+          <option>Education / Academy / School</option>
+          <option>Salon / Beauty / Spa</option>
+          <option>Clothing / Fashion / Brand</option>
+          <option>Electronics / Tech</option>
+          <option>Construction / Architecture</option>
+          <option>Freelancer / Personal Portfolio</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Business Address</label>
+        <input type="text" id="dAddress" placeholder="City, Area — e.g. Sargodha, Punjab">
+      </div>
+      <div class="form-field">
+        <label>Tell Us About Your Business (Optional)</label>
+        <textarea id="dInfo" rows="4" placeholder="Describe your business, services, target customers, special requirements, preferred colors, or any other details..."></textarea>
+      </div>
+      <button type="button" class="btn-demo-submit" onclick="submitDemoForm()">
+        Send Request → Get Free Demo in 24 Hours
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO SUCCESS POPUP -->
+<div id="demoSuccess">
+  <div class="success-box">
+    <span class="success-icon">🎉</span>
+    <h3>Request Sent Successfully!</h3>
+    <p>Your website demo request has been sent directly to Sami Bajwa on WhatsApp. Your work will be shown within <strong style="color:var(--ice-1);">24 hours</strong> with a live link.</p>
+    <div class="success-note">
+      ⚡ <strong>What happens next?</strong><br><br>
+      Your demo will be built and a live link will be shared with you within 24 hours. You can request any changes after seeing it — payment is only discussed once you are fully satisfied with the result.
+    </div>
+    <button class="btn-demo-submit" onclick="closeDemoSuccess()">Close ✓</button>
   </div>
 </div>
 
@@ -1656,19 +2010,70 @@
   document.addEventListener('dragstart', function(e) {
     if (e.target.tagName === 'IMG') e.preventDefault();
   });
+  // Demo Popup
+  function openDemoPopup() {
+    document.getElementById('demoPopup').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDemoPopup() {
+    document.getElementById('demoPopup').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeDemoSuccess() {
+    document.getElementById('demoSuccess').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('demoPopup').addEventListener('click', function(e) {
+    if (e.target === this) closeDemoPopup();
+  });
+
+  function submitDemoForm() {
+    const name     = document.getElementById('dName').value.trim();
+    const business = document.getElementById('dBusiness').value.trim();
+    const whatsapp = document.getElementById('dWhatsapp').value.trim();
+    const email    = document.getElementById('dEmail').value.trim();
+    const type     = document.getElementById('dType').value;
+    const address  = document.getElementById('dAddress').value.trim();
+    const info     = document.getElementById('dInfo').value.trim();
+
+    if (!name || !business || !whatsapp || !type) {
+      alert('Please fill in all required fields (Name, Business Name, WhatsApp Number, and Business Type).');
+      return;
+    }
+
+    let text = `*🌐 Website Demo Request — Samioutic.com*\n\n`;
+    text += `👤 *Name:* ${name}\n`;
+    text += `🏢 *Business Name:* ${business}\n`;
+    text += `📱 *WhatsApp:* ${whatsapp}\n`;
+    if (email) text += `📧 *Email:* ${email}\n`;
+    text += `🏷️ *Business Type:* ${type}\n`;
+    if (address) text += `📍 *Address:* ${address}\n`;
+    if (info) text += `\n📝 *About Business:*\n${info}`;
+
+    const waUrl = `https://wa.me/923258948738?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, '_blank');
+
+    closeDemoPopup();
+    document.getElementById('demoSuccess').classList.add('active');
+    document.getElementById('demoForm').reset();
+  }
+
   function handleForm(e) {
     e.preventDefault();
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const msg = document.getElementById('fmsg').value.trim();
+    const text = `*New Contact Message — Samioutic.com*\n\n👤 *Name:* ${name}\n📧 *Email:* ${email}\n💬 *Message:*\n${msg}`;
+    const waUrl = `https://wa.me/923258948738?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, '_blank');
     const btn = e.target.querySelector('button');
-    btn.textContent = 'Sending...';
+    btn.textContent = 'Opening WhatsApp ✓';
+    btn.style.background = 'linear-gradient(135deg, #1a8a4a, #2dcc70)';
+    e.target.reset();
     setTimeout(() => {
-      btn.textContent = 'Message Sent! ✓';
-      btn.style.background = 'linear-gradient(135deg, #1a8a4a, #2dcc70)';
-      e.target.reset();
-      setTimeout(() => {
-        btn.textContent = 'Send Message →';
-        btn.style.background = '';
-      }, 3000);
-    }, 1200);
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+    }, 3000);
   }
 </script>
 
